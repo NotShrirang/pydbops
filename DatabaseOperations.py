@@ -1,7 +1,5 @@
 import sqlite3
-from xml.etree.ElementPath import find
 from UserDefinedExceptions import *
-
 
 class Database:
     """
@@ -11,8 +9,6 @@ class Database:
     """
     def __init__(self, filepath:str) -> None:
         self.__filepath = filepath
-        self.__columnNames = []
-        self.__tableNames = []
         self.__tableNames = self.tables()
 
     def addEntry(self, table:str, value:dict) -> int:
@@ -46,6 +42,21 @@ class Database:
 
     def databaseVersion(self):
         return sqlite3.version
+
+    def getColumnNames(self, table: str, returnType: str = "list") -> list | int:
+        columns = []
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        data = c.execute(f"SELECT * FROM {table}")
+        conn.close()
+        for column in data.description:
+            columns.append(column)
+        if returnType == "list":
+            return columns
+        elif returnType == "int":
+            return len(columns)
+        else:
+            raise(InvalidReturnTypeError(returnType, function="getColumnNames"))
 
     def isEmpty(self) -> bool | int:
         count = self.tables(count = True)
@@ -104,7 +115,7 @@ class Database:
         if returnType in ["ids", "values"]:
             pass
         else:
-            raise(InvalidReturnTypeError(returnType))
+            raise(InvalidReturnTypeError(returnType, function="searchEntry"))
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
         if id != -1:
