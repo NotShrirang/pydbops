@@ -17,6 +17,9 @@ pip install pydbops
 from pyDatabaseOps import *
 ```
 
+## Methods:
+openDatabase() - 
+
 Programming Language : Python 3
 <br>
 License : MIT License
