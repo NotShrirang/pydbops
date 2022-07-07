@@ -218,9 +218,11 @@ class Database:
     def tables(self, count:bool = False, list:bool = True) -> list|int:
         """
         Accesses tables in a database.
+
         Args:
             - count (bool) : When True, function returns total number of tables.
             - list (bool) : When True, function returns table names. 
+        
         """
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
