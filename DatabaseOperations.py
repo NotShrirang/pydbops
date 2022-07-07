@@ -18,7 +18,7 @@ class Database:
 
         Args:
             table (str) : tablename.
-            value (dict): key is column name and value is value to be inserted.
+            value (dict): key is field name and value is value to be inserted.
 
         Returns:
             id of the entry inserted.
@@ -55,17 +55,17 @@ class Database:
         """
         return sqlite3.version
 
-    def getColumnNames(self, table: str, returnType: str = "list") -> list | int:
+    def getFieldNames(self, table: str, returnType: str = "list") -> list | int:
         """
-        Function for getting column names.
+        Function for getting field names.
         
         Args:
             - table (str) : Table name
             - returnType (str) : requests return type of the function -> list | int.
         
         Returns:
-            - If returnType is "list", then returns list of column names.
-            - If returnType is "int", then returns number of columns present.
+            - If returnType is "list", then returns list of field names.
+            - If returnType is "int", then returns number of fields present.
         """
         columns = []
         conn = sqlite3.connect(self.__filepath)
@@ -79,7 +79,7 @@ class Database:
         elif returnType == "int":
             return len(columns)
         else:
-            raise(InvalidReturnTypeError(returnType, function="getColumnNames"))
+            raise(InvalidReturnTypeError(returnType, function="getFieldNames"))
 
     def isEmpty(self) -> bool | int:
         """
@@ -237,9 +237,20 @@ class Database:
         else:
             return tableList
     
-    def updateEntry(self, table:str, values: dict, parameter: str, whereParamterIs:str | int) -> bool:
-        command = ", ".join(["\n{} = :{}".format(k,k) for k,_ in values.items()]) + f"\nWHERE {parameter} = :{parameter}"
-        values[parameter] = whereParamterIs
+    def updateEntry(self, table:str, values: dict, field: str, whereFieldIs:str | int) -> bool:
+        """
+        Function for updating values in database.
+
+        Args:
+            table (str) : tablename.
+            values (dict): key is field name and value is value to be updated.
+            field (str) : field name to be checked for entry to be updated.
+            whereFieldIs (str | int) : field value to be checked.
+        Returns:
+            id of the entry inserted.
+        """
+        command = ", ".join(["\n{} = :{}".format(k,k) for k,_ in values.items()]) + f"\nWHERE {field} = :{field}"
+        values[field] = whereFieldIs
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
         # print(f"UPDATE {table} SET {command}\n{values}")
