@@ -17,4 +17,4 @@ if __name__ == "__main__":
     # print(d.addEntry("Table1", {"Name": "Neil", "Number" : 5}))
     # print(d.searchEntry(table="Table1", keyword="Neil", returnType="ids", findAllOccurence=True))
     # d.removeEntry("table1", keyword="Neil" ,deleteAllOccurences=True)
-    # d.updateEntry(table="table1", values={"Number" : 6969}, parameter="Name", whereParamterIs="Neil")
+    # d.updateEntry(table="table1", values={"Number" : 6969}, field="Name", whereFieldIs="Neil")
