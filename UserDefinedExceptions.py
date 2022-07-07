@@ -4,7 +4,7 @@ class InvalidReturnTypeError(Exception):
         self.__function = function
 
     def __str__(self) -> str:
-        if self.__function == "getColumnNames":
+        if self.__function == "getFieldNames":
             self.__returnTypeList = ["list", "int"]
             return (f"\treturnType cannot be '{self.__returnType}'\nDid you mean {self.__returnTypeList}?")
         elif self.__function == "searchEntry":
