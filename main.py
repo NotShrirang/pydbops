@@ -1,4 +1,4 @@
-from Database import *
+from DatabaseOperations import *
 
 if __name__ == "__main__":
     fields = {"Name" : "TEXT", "Number" : "INTEGER"}
