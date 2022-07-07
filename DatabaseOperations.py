@@ -18,7 +18,7 @@ class Database:
 
         Args:
             table (str) : tablename.
-            value (dict): key is field name and value is value to be inserted.
+            values (dict): key is field name and value is value to be inserted.
 
         Returns:
             id of the entry inserted.
