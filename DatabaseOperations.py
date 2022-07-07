@@ -4,6 +4,7 @@ from UserDefinedExceptions import *
 class Database:
     """
     Class for database operations.
+    
     Args :
         filepath (str): path for database file.
     """
@@ -25,6 +26,7 @@ class Database:
         columns = "(" + ", ".join([":{}".format(k) for k,_ in value.items()]) + ")"
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
+        # print(f"INSERT INTO {table} VALUES {columns}", value)
         c.execute(f"INSERT INTO {table} VALUES {columns}", value)
         conn.commit()
         c.execute(f"SELECT oid FROM {table} WHERE oid = (SELECT MAX(oid) FROM {table})")
@@ -33,6 +35,13 @@ class Database:
         return id[0]
 
     def createTable(self, tableName:str, fields:dict) -> bool:
+        """
+        Creates table of given name.
+
+        Args:
+            - tableName (str) : Name of table.
+            - fields (dict) : Dictionary of (columns names : data types) 
+        """
         columns = "(" + ",\n".join(["{} {}".format(k,v) for k,v in fields.items()]) + ")"
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
@@ -41,9 +50,23 @@ class Database:
         conn.close()
 
     def databaseVersion(self):
+        """
+        Returns sqlite3 version.
+        """
         return sqlite3.version
 
     def getColumnNames(self, table: str, returnType: str = "list") -> list | int:
+        """
+        Function for getting column names.
+        
+        Args:
+            - table (str) : Table name
+            - returnType (str) : requests return type of the function -> list | int.
+        
+        Returns:
+            - If returnType is "list", then returns list of column names.
+            - If returnType is "int", then returns number of columns present.
+        """
         columns = []
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
@@ -59,6 +82,11 @@ class Database:
             raise(InvalidReturnTypeError(returnType, function="getColumnNames"))
 
     def isEmpty(self) -> bool | int:
+        """
+        Checks if database is empty.
+
+        Returns True if empty, else returns number of tables present.
+        """
         count = self.tables(count = True)
         if count == 0:
             return True
@@ -66,6 +94,19 @@ class Database:
             return count
 
     def removeEntry(self, table:str, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False , deleteAll: bool = False) -> bool:
+        """
+        Function for removing records from database.
+        
+        Args:
+            - table (str) : Table name
+            - id (int) : record id to be deleted.
+            - keyword (str) : searches keyword and deletes it.
+            - deleteAllOccurences (bool) : When True, deletes all occurences of that keyword.
+            - deleteAll (bool) : removes all entries from the specified table.
+        
+        Returns: 
+            True if deleted a record. False if record not found.
+        """
         if deleteAll:
             conn = sqlite3.connect(self.__filepath)
             c = conn.cursor()
@@ -78,15 +119,41 @@ class Database:
             c = conn.cursor()
             c.execute(f"DELETE from {table} WHERE oid = {id}")
             conn.commit()
+            c.execute(f"SELECT * from {table}")
+            records = c.fetchall()
+            c.execute(f"DELETE from {table}")
+            conn.commit()
             conn.close()
+            for record in records:
+                insert_dictionary = {}
+                k=1
+                for value in record:
+                    insert_dictionary[str(k)] = value
+                    k = k + 1
+                print(insert_dictionary)
+                self.addEntry(table=table, value=insert_dictionary)
             return True
         elif (keyword != "") : # for deleting record of given keyword
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            c.execute(f"SELECT * from {table}")
+            records = c.fetchall()
+            c.execute(f"DELETE from {table}")
+            conn.commit()
+            conn.close()
+            for record in records:
+                insert_dictionary = {}
+                k=1
+                for value in record:
+                    insert_dictionary[str(k)] = value
+                    k = k + 1
+                # print(insert_dictionary)
+                self.addEntry(table=table, value=insert_dictionary)
             keywordFoundEntries = self.searchEntry(table=table, keyword=keyword, returnType="ids", findAllOccurence=True)
             conn = sqlite3.connect(self.__filepath)
             c = conn.cursor()
             if deleteAllOccurences:
                 for id in keywordFoundEntries:
-                    
                     # self.removeEntry(table=table, deleteAll=True)
                     c.execute(f"DELETE from {table} WHERE oid = {id}")
                     conn.commit()
@@ -95,7 +162,8 @@ class Database:
                 c.execute(f"DELETE from {table} WHERE oid = {id}")
                 conn.commit()
             conn.close()
-
+            return True
+        return False
     def searchEntry(self, table:str, id:int = -1, keyword:str = "", returnType:str = "ids", findAllOccurence:bool = False) -> list:
         """
         Function for searching in database.
@@ -128,6 +196,8 @@ class Database:
             conn.close()
             ids = []
             i = 1
+            # print(records)
+            # return
             for record in records:
                 if keyword in record:
                     if findAllOccurence:
