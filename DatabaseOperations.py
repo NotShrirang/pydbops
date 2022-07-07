@@ -12,7 +12,7 @@ class Database:
         self.__filepath = filepath
         self.__tableNames = self.tables()
 
-    def addEntry(self, table:str, value:dict) -> int:
+    def addEntry(self, table:str, values:dict) -> int:
         """
         Function for inserting values in database.
 
@@ -23,11 +23,11 @@ class Database:
         Returns:
             id of the entry inserted.
         """
-        columns = "(" + ", ".join([":{}".format(k) for k,_ in value.items()]) + ")"
+        columns = "(" + ", ".join([":{}".format(k) for k,_ in values.items()]) + ")"
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
         # print(f"INSERT INTO {table} VALUES {columns}", value)
-        c.execute(f"INSERT INTO {table} VALUES {columns}", value)
+        c.execute(f"INSERT INTO {table} VALUES {columns}", values)
         conn.commit()
         c.execute(f"SELECT oid FROM {table} WHERE oid = (SELECT MAX(oid) FROM {table})")
         id = c.fetchone()
@@ -236,3 +236,14 @@ class Database:
             return tableList
         else:
             return tableList
+    
+    def updateEntry(self, table:str, values: dict, parameter: str, whereParamterIs:str | int) -> bool:
+        command = ", ".join(["\n{} = :{}".format(k,k) for k,_ in values.items()]) + f"\nWHERE {parameter} = :{parameter}"
+        values[parameter] = whereParamterIs
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        # print(f"UPDATE {table} SET {command}\n{values}")
+        c.execute(f"""UPDATE {table} SET {command}""", values)
+        conn.commit()
+        conn.close()
+        return True
