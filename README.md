@@ -14,7 +14,7 @@ pip install pydbops
 ## Importing pydbops:
 
 ```sh
-import Database as Database
+import pydbops import *
 ```
 
 ## Methods in Database:
