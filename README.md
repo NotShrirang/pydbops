@@ -1,4 +1,4 @@
-# Database Operations
+# pydbops
 [![PyPI Latest Release](https://img.shields.io/pypi/v/pydbops.svg)](https://pypi.org/project/pydbops/)
 [![License](https://img.shields.io/pypi/l/pydbops.svg)](https://github.com/NotShrirang/DatabaseOperations/blob/main/LICENSE)
 
