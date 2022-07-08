@@ -35,7 +35,7 @@ import pydbops as db
 9. <code>tableNames()</code> - Function for retrieving tables in a database.
 10. <code>updateEntry()</code> - Function for updating values in database.
 
-For printing data in database you can use default print() method by passing Database object in it.
+For printing data in database, you can use default print() method by passing Database object in it.
 
 Programming Language : Python 3
 <br>
