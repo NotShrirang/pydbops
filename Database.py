@@ -1,5 +1,5 @@
 from pydbops import pydbops
-from tables import Table
+from pydbops.tables import Table
 
 class Database(pydbops):
     """
@@ -29,7 +29,7 @@ class Database(pydbops):
         return super().databaseVersion()
     def getFieldNames(self, table: str, returnType: str = "list") -> list | int:
         return super().getFieldNames(table, returnType)
-    def getTable(self, table) -> Table:
+    def getTable(self, table:str) -> Table:
         """
         Creates Table instance.
         
