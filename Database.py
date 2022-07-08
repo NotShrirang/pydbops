@@ -12,7 +12,6 @@ class Database(pydbops):
         super().__init__(filepath)
         self.__filepath = filepath
         self.tables = self.tableNames(list=True)
-
     def __str__(self) -> str:
         string = ""
         for table in self.tables:
@@ -22,35 +21,33 @@ class Database(pydbops):
             else:
                 string = string + str(t)
         return str(string)
-
     def addEntry(self, table: str, values: dict) -> int:
         return super().addEntry(table, values)
-
     def createTable(self, tableName: str, fields: dict) -> bool:
         return super().createTable(tableName, fields)
-
     def databaseVersion(self):
         return super().databaseVersion()
-
     def getFieldNames(self, table: str, returnType: str = "list") -> list | int:
         return super().getFieldNames(table, returnType)
-
     def getTable(self, table) -> Table:
+        """
+        Creates Table instance.
+        
+        Args:
+            table (str) : table name.
+
+        Returns: Table
+        """
         t = Table(table=table, filepath=self.__filepath)
         return t
-
     def length(self) -> int:
         return super().length()
-
     def removeEntry(self, table: str, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False, deleteAll: bool = False) -> bool:
         return super().removeEntry(table, id, keyword, deleteAllOccurences, deleteAll)
-    
     def searchEntry(self, table: str, id: int = -1, keyword: str = "", returnType: str = "ids", findAllOccurence: bool = False) -> list:
         return super().searchEntry(table, id, keyword, returnType, findAllOccurence)
-        
     def tableNames(self, count: bool = False, list: bool = True, dictionary: bool = False) -> list | int | dict:
         return super().tableNames(count, list, dictionary)
-    
     def updateEntry(self, table: str, values: dict, field: str, whereFieldIs: str | int) -> bool:
         return super().updateEntry(table, values, field, whereFieldIs)
     
