@@ -16,6 +16,11 @@ pip install pydbops
 ```sh
 import pydbops import *
 ```
+or
+```sh
+import pydbops as db
+```
+(You will need to call openDatabase() method using db.)
 
 ## Methods in Database:
 1. <code>openDatabase()</code> - Creates a database and returns a Database object.
