@@ -10,4 +10,7 @@ class InvalidReturnTypeError(Exception):
         elif self.__function == "searchEntry":
             self.__returnTypeList = ["values", "ids"]
             return (f"\treturnType cannot be '{self.__returnType}'\nDid you mean any of {self.__returnTypeList} ?")
+        elif self.__function == "tableNames":
+            self.__returnTypeList == ["int", "list", "dict"]
+            return (f"\trReturn type cannot be two or more.\nDid you mean any one of {self.__returnTypeList} ?")
     
