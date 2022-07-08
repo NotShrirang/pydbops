@@ -34,7 +34,6 @@ if __name__ == "__main__":
     print(d)
 
     # Printing values of a table.
-    
     print(t1)
     
     # Printing sqlite3 version
