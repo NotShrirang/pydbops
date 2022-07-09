@@ -1,5 +1,5 @@
 import sqlite3
-from pydbops.UserDefinedExceptions import InvalidReturnTypeError
+from UserDefinedExceptions import InvalidReturnTypeError
 
 class pydbops():
     """
@@ -304,10 +304,3 @@ class pydbops():
         conn.commit()
         conn.close()
         return True
-
-def openDatabase(filename:str) -> pydbops:
-    """
-    Creates a database and returns a Database object.
-    """
-    d = pydbops(filepath=filename)
-    return d
