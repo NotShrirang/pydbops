@@ -1,9 +1,9 @@
-import Database as Database
+from Database import * 
 
 if __name__ == "__main__":
 
     # Creating Database instance.
-    d = Database.openDatabase("MyDB.db")
+    d = openDatabase("MyDB.db")
 
     # Creating fields for table
     fields = {"Name" : "TEXT", "Number" : "INTEGER"}
@@ -26,14 +26,14 @@ if __name__ == "__main__":
     # Updating an entry.
     d.updateEntry(table="table1", values={"Number" : 123}, field="Name", whereFieldIs="Shrirang")
 
-    # Removing entry (or entries) with a keyword.
-    d.removeEntry("table1", keyword="Shrirang" ,deleteAllOccurences=True)
-
     # Printing values of whole database.
     print(d)
 
     # Printing values of a table.
     print(t1)
+    
+    # Removing entry (or entries) with a keyword.
+    d.removeEntry("table1", keyword="Shrirang" ,deleteAllOccurences=True)
     
     # Printing sqlite3 version
     print(d.databaseVersion())
