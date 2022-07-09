@@ -1,5 +1,5 @@
 from pydbops import pydbops
-from pydbops.tables import Table
+from tables import Table
 
 class Database(pydbops):
     """
