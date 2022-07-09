@@ -22,8 +22,27 @@ class Database(pydbops):
                 string = string + str(t)
         return str(string)
     def addEntry(self, table: str, values: dict) -> int:
+        """
+        Function for inserting values in database.
+
+        Args:
+            table (str) : tablename.
+            values (dict): key is field name and value is value to be inserted.
+
+        Returns:
+            id of the entry inserted.
+        """
         return super().addEntry(table, values)
     def createTable(self, tableName: str, fields: dict) -> bool:
+        """
+        Creates table of given name.
+
+        Args:
+            - tableName (str) : Name of table.
+            - fields (dict) : Dictionary of (columns names : data types)
+        Returns:
+            - True if executed. 
+        """
         return super().createTable(tableName, fields)
     def databaseVersion(self):
         return super().databaseVersion()
