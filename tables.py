@@ -1,5 +1,6 @@
 from pydbops import pydbops
 import sqlite3
+
 class Table(pydbops):
     """
     Class for representing tables in database.
