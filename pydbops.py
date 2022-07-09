@@ -66,7 +66,9 @@ class pydbops():
 
         Args:
             - tableName (str) : Name of table.
-            - fields (dict) : Dictionary of (columns names : data types) 
+            - fields (dict) : Dictionary of (columns names : data types)
+        Returns:
+            - True if executed. 
         """
         columns = "(" + ",\n".join(["{} {}".format(k,v) for k,v in fields.items()]) + ")"
         conn = sqlite3.connect(self.__filepath)
@@ -197,7 +199,7 @@ class pydbops():
             return True
         return False
     
-    def searchEntry(self, table:str, id:int = -1, keyword:str = "", returnType:str = "ids", findAllOccurence:bool = False) -> list:
+    def searchEntry(self, table:str, id:int = -1, keyword:str = "", returnType:str = "ids", findAllOccurence:bool = False) -> int | list:
         """
         Function for searching in database.
 
