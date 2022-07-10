@@ -1,3 +1,5 @@
+<img src="https://github.com/NotShrirang/pydbops/blob/main/src/pydbops/database_image.png" height="200" width="200">
+
 # pydbops
 [![PyPI Latest Release](https://img.shields.io/pypi/v/pydbops.svg)](https://pypi.org/project/pydbops/)
 ![Tests](https://github.com/NotShrirang/pydbops/actions/workflows/test.yml/badge.svg)
