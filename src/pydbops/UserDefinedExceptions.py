@@ -1,4 +1,7 @@
 class InvalidReturnTypeError(Exception):
+    """
+    Class for user defined exception.
+    """
     def __init__(self, ReturnType, function) -> None:
         self.__returnType = ReturnType
         self.__function = function
