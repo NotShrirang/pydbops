@@ -226,7 +226,6 @@ class pydbops():
 
         Returns: list or int.
         """
-
         if returnType not in ["ids", "values"]:
             raise(InvalidReturnTypeError(returnType, function="searchEntry"))
         conn = sqlite3.connect(self.__filepath)
