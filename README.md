@@ -1,4 +1,4 @@
-<img src="https://github.com/NotShrirang/pydbops/blob/main/src/pydbops/database_image.png" height="200" width="200">
+<img src="https://github.com/NotShrirang/pydbops/blob/main/src/pydbops/database_image.png" height="100" width="100">
 
 # pydbops
 [![PyPI Latest Release](https://img.shields.io/pypi/v/pydbops.svg)](https://pypi.org/project/pydbops/)
