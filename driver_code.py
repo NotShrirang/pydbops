@@ -1,12 +1,6 @@
 from pydbops.Database import * 
 from pydbops.pydbops import *
-# d = pydbops("MyDB.db")
-# print(d.tableNames(count=True))
-# print(d.tableNames(list=True))
-# print(d.tableNames(dictionary=True))
-# print(d.tableNames())
 
-# exit(1)
 if __name__ == "__main__":
 
     # Creating Database instance.

@@ -1,0 +1,17 @@
+LICENSE
+README.md
+pyproject.toml
+setup.cfg
+setup.py
+src/pydbops/Database.py
+src/pydbops/UserDefinedExceptions.py
+src/pydbops/__init__.py
+src/pydbops/py.typed
+src/pydbops/pydbops.py
+src/pydbops/tables.py
+src/pydbops.egg-info/PKG-INFO
+src/pydbops.egg-info/SOURCES.txt
+src/pydbops.egg-info/dependency_links.txt
+src/pydbops.egg-info/not-zip-safe
+src/pydbops.egg-info/requires.txt
+src/pydbops.egg-info/top_level.txt
