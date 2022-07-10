@@ -1,5 +1,6 @@
 # pydbops
 [![PyPI Latest Release](https://img.shields.io/pypi/v/pydbops.svg)](https://pypi.org/project/pydbops/)
+![Tests](https://github.com/NotShrirang/pydbops/actions/workflows/test.yml/badge.svg)
 [![License](https://img.shields.io/pypi/l/pydbops.svg)](https://github.com/NotShrirang/pydbops/blob/main/LICENSE)
 
 Library for simplifying database operations.
