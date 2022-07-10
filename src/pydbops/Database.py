@@ -51,6 +51,9 @@ class Database(pydbops):
         return super().createTable(tableName, fields)
 
     def databaseVersion(self) -> str:
+        """
+        Returns sqlite3 version.
+        """
         return super().databaseVersion()
 
     @overload
@@ -60,6 +63,17 @@ class Database(pydbops):
     def getFieldNames(self, table: str, returnType: str = "list") -> list[str]: ...
 
     def getFieldNames(self, table: str, returnType: str = "list") -> int | list[str]:
+        """
+        Function for getting field names.
+
+        Args:
+            - table (str) : Table name
+            - returnType (str) : requests return type of the function -> list | int.
+
+        Returns:
+            - If returnType is "list", then returns list of field names.
+            - If returnType is "int", then returns number of fields present.
+        """
         return super().getFieldNames(table, returnType)
 
     def getTable(self, table: str) -> Table:
@@ -75,9 +89,27 @@ class Database(pydbops):
         return t
 
     def length(self) -> int:
+        """
+        Checks if database is empty.
+
+        Returns True if empty, else returns number of tables present.
+        """
         return super().length()
 
     def removeEntry(self, table: str, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False, deleteAll: bool = False) -> bool:
+        """
+        Function for removing records from database.
+
+        Args:
+            - table (str) : Table name
+            - id (int) : record id to be deleted.
+            - keyword (str) : searches keyword and deletes it.
+            - deleteAllOccurences (bool) : When True, deletes all occurences of that keyword.
+            - deleteAll (bool) : removes all entries from the specified table.
+
+        Returns:
+            True if deleted a record. False if record not found.
+        """
         return super().removeEntry(table, id, keyword, deleteAllOccurences, deleteAll)
 
     @overload
@@ -87,6 +119,20 @@ class Database(pydbops):
     def searchEntry(self, table: str, id: int = -1, keyword: str = "", returnType: str = "list", findAllOccurence: bool = True) -> list[tuple[int | str]]: ...
 
     def searchEntry(self, table: str, id: int = -1, keyword: str = "", returnType: str = "ids", findAllOccurence: bool = False) -> int | list[tuple[int | str]]:
+        """
+        Function for searching in database.
+
+        Args:
+            - table (str) : Table name
+            - id (int) : entry id in database
+            - keyword (str) : keyword to be searched in database
+            - returnType (str) :
+                - "list" returns all the records of searched parameter.
+                - "ids" returns all the ids of records in which searched parameter is present.
+            - findAllOccurences (bool) : when True, returns all the occurences of given keyword.
+
+        Returns: list or int.
+        """
         return super().searchEntry(table, id, keyword, returnType, findAllOccurence)
 
     @overload
@@ -99,6 +145,14 @@ class Database(pydbops):
     def tableNames(self, count: bool = False, list: bool = False, dictionary: bool = True) -> dict[str, str]: ...
 
     def tableNames(self, count: bool = False, list: bool = True, dictionary: bool = False) -> int | list[str] | dict[str, str]:
+        """
+        Accesses tables in a database.
+
+        Args:
+            - count (bool) : When True, function returns total number of tables.
+            - list (bool) : When True, function returns table names.
+            - dictionary (bool) : When True, function returns table names in dict format.
+        """
         return super().tableNames(count, list, dictionary)
 
     @overload
@@ -108,6 +162,17 @@ class Database(pydbops):
     def updateEntry(self, table: str, values: dict[str, str | int], field: str, whereFieldIs: str) -> bool: ...
 
     def updateEntry(self, table: str, values: dict[str, str | int], field: str, whereFieldIs: str | int) -> bool:
+        """
+        Function for updating values in database.
+
+        Args:
+            table (str) : tablename.
+            values (dict): key is field name and value is value to be updated.
+            field (str) : field name to be checked for entry to be updated.
+            whereFieldIs (str | int) : field value to be checked.
+        Returns:
+            id of the entry inserted.
+        """
         return super().updateEntry(table, values, field, whereFieldIs)
 
 
