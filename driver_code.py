@@ -1,5 +1,5 @@
-from pydbops.Database import * 
-from pydbops.pydbops import *
+from src.pydbops.Database import * 
+from src.pydbops.pydbops import *
 
 if __name__ == "__main__":
 
@@ -34,7 +34,7 @@ if __name__ == "__main__":
     print(t1)
     
     # Removing entry (or entries) with a keyword.
-    d.removeEntry("table1", keyword="Shrirang" ,deleteAllOccurences=True)
+    d.removeEntry(table="table1", keyword="Shrirang", deleteAllOccurences=True)
     
     # Printing sqlite3 version
     print(d.databaseVersion())
