@@ -6,6 +6,27 @@ from typing import overload
 class Table(pydbops):
     """
     Class for representing tables in database.
+    Represents single table in a database.
+
+    Note: 
+    We recommend you not to create object of this class directly. 
+    Use getTable(tableName: str) method in Database class to get the specific table.
+
+    Args:
+    -----
+        - table (str) : name of table
+        - filepath (str) : path to the database
+
+    Methods:
+    -------
+        - addEntry() - Function for inserting values in table.
+        - databaseVersion() - Returns sqlite3 version.
+        - getFieldNames() - Function for getting field names.
+        - length() - Returns length of table. Returns 0 if table is empty.
+        - removeEntry() - Function for removing records from table.
+        - searchEntry() - Function for searching in table.
+        - updateEntry() - Function for updating values in table.
+        - values() - Accesses records in a table.
     """
     def __init__(self, table: str, filepath: str) -> None:
         super().__init__(filepath=filepath)
@@ -33,7 +54,7 @@ class Table(pydbops):
                 string = string + f"{value} "
             string = string + "\n"
         conn.close()
-        string = string + "_________________________________________________________\n"
+        string = string + "_______________________________________________\n"
         return string
 
     def addEntry(self, values: dict[str, str]) -> int:
@@ -49,6 +70,9 @@ class Table(pydbops):
         return super().addEntry(self.tableName, values)
 
     def databaseVersion(self) -> str:
+        """
+        Returns sqlite3 version.
+        """
         return super().databaseVersion()
 
     @overload
@@ -58,6 +82,16 @@ class Table(pydbops):
     def getFieldNames(self, returnType: str = "list") -> list[str]: ...
 
     def getFieldNames(self, returnType: str = "list") -> list[str] | int:
+        """
+        Function for getting field names.
+
+        Args:
+            - returnType (str) : requests return type of the function -> list | int.
+
+        Returns:
+            - If returnType is "list", then returns list of field names.
+            - If returnType is "int", then returns number of fields present.
+        """
         return super().getFieldNames(self.tableName, returnType)
 
     def length(self) -> int:
@@ -67,6 +101,21 @@ class Table(pydbops):
         count = self.values(count=True)
         return count
 
+    def removeEntry(self, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False, deleteAll: bool = False) -> bool:
+        """
+        Function for removing records from table.
+
+        Args:
+            - id (int) : record id to be deleted.
+            - keyword (str) : searches keyword and deletes it.
+            - deleteAllOccurences (bool) : When True, deletes all occurences of that keyword.
+            - deleteAll (bool) : removes all entries from the specified table.
+
+        Returns:
+            True if deleted a record. False if record not found.
+        """
+        return super().removeEntry(self.tableName, id, keyword, deleteAllOccurences, deleteAll)
+
     @overload
     def searchEntry(self, id: int = -1, keyword: str = "", returnType: str = "ids", findAllOccurence: bool = False) -> int: ...
 
@@ -74,10 +123,20 @@ class Table(pydbops):
     def searchEntry(self, id: int = -1, keyword: str = "", returnType: str = "list", findAllOccurence: bool = True) -> list[tuple[int | str]]: ...
 
     def searchEntry(self, id: int = -1, keyword: str = "", returnType: str = "ids", findAllOccurence: bool = False) -> int | list[tuple[int | str]]:
-        return super().searchEntry(self.tableName, id, keyword, returnType, findAllOccurence)
+        """
+        Function for searching in table.
 
-    def removeEntry(self, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False, deleteAll: bool = False) -> bool:
-        return super().removeEntry(self.tableName, id, keyword, deleteAllOccurences, deleteAll)
+        Args:
+            - id (int) : entry id in database
+            - keyword (str) : keyword to be searched in database
+            - returnType (str) :
+                - "list" returns all the records of searched parameter.
+                - "ids" returns all the ids of records in which searched parameter is present.
+            - findAllOccurences (bool) : when True, returns all the occurences of given keyword.
+
+        Returns: list or int.
+        """
+        return super().searchEntry(self.tableName, id, keyword, returnType, findAllOccurence)
 
     @overload
     def updateEntry(self, values: dict[str, str | int], field: str, whereFieldIs: int) -> bool: ...
@@ -86,6 +145,16 @@ class Table(pydbops):
     def updateEntry(self, values: dict[str, str | int], field: str, whereFieldIs: str) -> bool: ...
 
     def updateEntry(self, values: dict[str, str | int], field: str, whereFieldIs: str | int) -> bool:
+        """
+        Function for updating values in table.
+
+        Args:
+            - values (dict): key is field name and value is value to be updated.
+            - field (str) : field name to be checked for entry to be updated.
+            - whereFieldIs (str | int) : field value to be checked.
+        
+        Returns: id of the entry updated.
+        """
         return super().updateEntry(self.tableName, values, field, whereFieldIs)
 
     @overload
@@ -96,11 +165,13 @@ class Table(pydbops):
 
     def values(self, count: bool = False, list: bool = True) -> int | list[str]:
         """
-        Accesses tables in a database.
+        Accesses records in a table.
 
         Args:
             - count (bool) : When True, function returns total number of tables.
             - list (bool) : When True, function returns table names.
+
+        Returns: int or list of records
         """
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
