@@ -101,6 +101,18 @@ class Table(pydbops):
         count = self.values(count=True)
         return count
 
+    @overload
+    def orderTable(self, field: list[str]) -> bool: ...
+
+    @overload
+    def orderTable(self, field: str) -> bool: ...
+
+    @overload
+    def orderTable(self, field: dict[str, str]) -> bool: ...
+
+    def orderTable(self, field: str | list[str] | dict[str, str]) -> bool:
+        return super().orderTable(table=self.tableName, field=field)
+
     def removeEntry(self, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False, deleteAll: bool = False) -> bool:
         """
         Function for removing records from table.
