@@ -23,6 +23,7 @@ class Database(pydbops):
         - length() - Returns length of table. Returns 0 if table is empty.
         - removeEntry() - Function for removing records from table.
         - searchEntry() - Function for searching in table.
+        - tableNames() - Accesses tables in a database.
         - updateEntry() - Function for updating values in table.
         - values() - Accesses records in a table.
     """
