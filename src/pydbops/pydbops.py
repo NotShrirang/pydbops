@@ -317,12 +317,12 @@ class pydbops():
             return tableList
 
     @overload
-    def updateEntry(self, table: str, values: dict[str, str | int], field: str, whereFieldIs: int) -> bool: ...
+    def updateEntry(self, table: str, values: dict[str, str | int], whereField: str, Is: int) -> bool: ...
 
     @overload
-    def updateEntry(self, table: str, values: dict[str, str | int], field: str, whereFieldIs: str) -> bool: ...
+    def updateEntry(self, table: str, values: dict[str, str | int], whereField: str, Is: str) -> bool: ...
 
-    def updateEntry(self, table: str, values: dict[str, str | int], field: str, whereFieldIs: str | int) -> bool:
+    def updateEntry(self, table: str, values: dict[str, str | int], whereField: str, Is: str | int) -> bool:
         """
         Function for updating values in database.
 
@@ -334,8 +334,8 @@ class pydbops():
         Returns:
             id of the entry inserted.
         """
-        command = ", ".join(["\n{} = :{}".format(k, k) for k, _ in values.items()]) + f"\nWHERE {field} = :{field}"
-        values[field] = whereFieldIs
+        command = ", ".join(["\n{} = :{}".format(k, k) for k, _ in values.items()]) + f"\nWHERE {whereField} = :{whereField}"
+        values[whereField] = Is
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
         c.execute(f"""UPDATE {table} SET {command}""", values)
