@@ -25,7 +25,7 @@ if __name__ == "__main__":
     d.searchEntry(table="Table1", keyword="Shrirang", returnType="ids", findAllOccurence=True)
 
     # Updating an entry.
-    d.updateEntry(table="table1", values={"Number" : 123}, field="Name", whereFieldIs="Shrirang")
+    d.updateEntry(table="table1", values={"Number" : 123}, whereField="Name", Is="Shrirang")
 
     # Printing values of whole database.
     print(d)
