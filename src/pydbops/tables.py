@@ -8,8 +8,8 @@ class Table(pydbops):
     Class for representing tables in database.
     Represents single table in a database.
 
-    Note: 
-    We recommend you not to create object of this class directly. 
+    Note:
+    We recommend you not to create object of this class directly.
     Use getTable(tableName: str) method in Database class to get the specific table.
 
     Args:
@@ -75,6 +75,43 @@ class Table(pydbops):
         """
         return super().databaseVersion()
 
+    def dropTable(self, getData: bool = True) -> list[tuple[str | int, str | int, ]]:
+        """
+        Function for deleting table.
+
+        Args:
+            - getData (bool): If True, returns all the data before deleting the table.
+
+        Returns: list of records.
+        """
+        records = super().dropTable(table=self.tableName, getData=getData)
+        del self
+        return records
+
+    @overload
+    def fetchInOrder(self, field: list[str]) -> list[tuple[str | int, str | int, ]]: ...
+
+    @overload
+    def fetchInOrder(self, field: str) -> list[tuple[str | int, str | int, ]]: ...
+
+    @overload
+    def fetchInOrder(self, field: dict[str, str]) -> list[tuple[str | int, str | int, ]]: ...
+
+    def fetchInOrder(self, field: str | list[str] | dict[str, str]) -> list[tuple[str | int, str | int, ]]:
+        """
+        Function for fetching table entries in given order.
+
+        Args:
+            - field (str | list[str] | dict[str, str]):
+                    where order = [ASC, DESC])
+                    - str: "<field_name> <order>"
+                    - list[str]: ["<field_name> <order>", "<field_name> <order>", . . . ]
+                    - dict[str, str]: {"<field_name>" : "<order>", . . .}
+
+        Returns: list of records sorted in given order.
+        """
+        return super().fetchInOrder(table=self.tableName, field=field)
+
     @overload
     def getFieldNames(self, returnType: str = "int") -> int: ...
 
@@ -100,18 +137,6 @@ class Table(pydbops):
         """
         count = self.values(count=True)
         return count
-
-    @overload
-    def orderTable(self, field: list[str]) -> bool: ...
-
-    @overload
-    def orderTable(self, field: str) -> bool: ...
-
-    @overload
-    def orderTable(self, field: dict[str, str]) -> bool: ...
-
-    def orderTable(self, field: str | list[str] | dict[str, str]) -> bool:
-        return super().orderTable(table=self.tableName, field=field)
 
     def removeEntry(self, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False, deleteAll: bool = False) -> bool:
         """
@@ -151,7 +176,7 @@ class Table(pydbops):
         return super().searchEntry(self.tableName, id, keyword, returnType, findAllOccurence)
 
     @overload
-    def updateEntry(self, values: dict[str, str | int], whereField: str, whereFieldIs: int) -> bool: ...
+    def updateEntry(self, values: dict[str, str | int], whereField: str, Is: int) -> bool: ...
 
     @overload
     def updateEntry(self, values: dict[str, str | int], whereField: str, Is: str) -> bool: ...
@@ -164,7 +189,7 @@ class Table(pydbops):
             - values (dict): key is field name and value is value to be updated.
             - field (str) : field name to be checked for entry to be updated.
             - whereFieldIs (str | int) : field value to be checked.
-        
+
         Returns: id of the entry updated.
         """
         return super().updateEntry(self.tableName, values, whereField, Is)
