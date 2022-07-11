@@ -139,12 +139,12 @@ class Table(pydbops):
         return super().searchEntry(self.tableName, id, keyword, returnType, findAllOccurence)
 
     @overload
-    def updateEntry(self, values: dict[str, str | int], field: str, whereFieldIs: int) -> bool: ...
+    def updateEntry(self, values: dict[str, str | int], whereField: str, whereFieldIs: int) -> bool: ...
 
     @overload
-    def updateEntry(self, values: dict[str, str | int], field: str, whereFieldIs: str) -> bool: ...
+    def updateEntry(self, values: dict[str, str | int], whereField: str, Is: str) -> bool: ...
 
-    def updateEntry(self, values: dict[str, str | int], field: str, whereFieldIs: str | int) -> bool:
+    def updateEntry(self, values: dict[str, str | int], whereField: str, Is: str | int) -> bool:
         """
         Function for updating values in table.
 
@@ -155,7 +155,7 @@ class Table(pydbops):
         
         Returns: id of the entry updated.
         """
-        return super().updateEntry(self.tableName, values, field, whereFieldIs)
+        return super().updateEntry(self.tableName, values, whereField, Is)
 
     @overload
     def values(self, count: bool = True, list: bool = False) -> int: ...
