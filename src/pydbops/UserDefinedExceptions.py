@@ -17,13 +17,26 @@ class InvalidReturnTypeError(Exception):
             self.__returnTypeList == ["int", "list", "dict"]
             return (f"\trReturn type cannot be two or more.\nDid you mean any one of {self.__returnTypeList} ?")
 
-class InvalidParameterType(Exception):
+
+class InvalidParameterTypeError(Exception):
     """
     Class for user defined exception, if parameter type mentioned is wrong.
     """
     def __init__(self, argType, function) -> None:
         self.__argType = argType
         self.__function = function
+
     def __str__(self) -> str:
         return f"\tfield cannot be {self.__argType}"
 
+
+class NoSuchTableError(Exception):
+    """
+    Class for user defined exception, if table does not exist.
+    """
+
+    def __init__(self, table) -> None:
+        self.__table = table
+
+    def __str__(self) -> str:
+        return f"no such table: {self.__table}"
