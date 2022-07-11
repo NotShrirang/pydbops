@@ -96,6 +96,18 @@ class Database(pydbops):
         """
         return super().length()
 
+    @overload
+    def orderTable(self, table: str, field: list[str]) -> bool: ...
+
+    @overload
+    def orderTable(self, table: str, field: str) -> bool: ...
+
+    @overload
+    def orderTable(self, table: str, field: dict[str, str]) -> bool: ...
+
+    def orderTable(self, table: str, field: str | list[str] | dict[str, str]) -> bool:
+        return super().orderTable(table=table, field=field)
+
     def removeEntry(self, table: str, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False, deleteAll: bool = False) -> bool:
         """
         Function for removing records from database.
