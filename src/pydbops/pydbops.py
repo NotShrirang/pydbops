@@ -1,4 +1,4 @@
-from pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterType
+from pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterTypeError
 import sqlite3
 from typing import overload
 
@@ -36,7 +36,6 @@ class pydbops():
                     string = string + f"{value} "
                 string = string + "\n"
         conn.close()
-        print(string)
         return string
 
     def addEntry(self, table: str, values: dict[str, str]) -> int:
@@ -53,7 +52,6 @@ class pydbops():
         columns = "(" + ", ".join([":{}".format(k) for k, _ in values.items()]) + ")"
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
-        print(f"INSERT INTO {table} VALUES {columns}", values)
         c.execute(f"INSERT INTO {table} VALUES {columns}", values)
         conn.commit()
         c.execute(f"SELECT oid FROM {table} WHERE oid = (SELECT MAX(oid) FROM {table})")
@@ -86,6 +84,76 @@ class pydbops():
         Returns sqlite3 version.
         """
         return sqlite3.version
+
+    def dropTable(self, table: str, getData: bool = True) -> list[tuple[str | int, str | int, ]]:
+        """
+        Function for deleting table.
+
+        Args:
+            - table (str): Table name.
+            - getData (bool): If True, returns all the data before deleting the table.
+
+        Returns: list of records.
+        """
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        if getData:
+            c.execute(f"SELECT * FROM {table}")
+            records = c.fetchall()
+            c.execute(f"DROP TABLE {table}")
+            conn.commit()
+            conn.close()
+            return records
+        else:
+            records = []
+            c.execute(f"DROP TABLE {table}")
+            conn.commit()
+            conn.close()
+            return []
+
+    @overload
+    def fetchInOrder(self, table: str, field: list[str]) -> list[tuple[str | int, str | int, ]]: ...
+
+    @overload
+    def fetchInOrder(self, table: str, field: str) -> list[tuple[str | int, str | int, ]]: ...
+
+    @overload
+    def fetchInOrder(self, table: str, field: dict[str, str]) -> list[tuple[str | int, str | int, ]]: ...
+
+    def fetchInOrder(self, table: str, field: str | list[str] | dict[str, str]) -> list[tuple[str | int, str | int, ]]:
+        """
+        Function for fetching database entries in given order.
+
+        Args:
+            - table (str): Table name.
+            - field (str | list[str] | dict[str, str]):
+                    where order = [ASC, DESC])
+                    - str: "<field_name> <order>"
+                    - list[str]: ["<field_name> <order>", "<field_name> <order>", . . . ]
+                    - dict[str, str]: {"<field_name>" : "<order>", . . .}
+
+        Returns: list of records sorted in given order.
+        """
+        if type(field) is str:
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            c.execute(f"SELECT * FROM {table} ORDER BY Name")
+        elif type(field) is list:
+            command = ", ".join(["{}".format(v) for v in field])
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            c.execute(f"SELECT * FROM {table} ORDER BY {command}")
+        elif type(field) is dict:
+            command = ", ".join(["{} {}".format(k, v) for k, v in field.items()])
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            c.execute(f"SELECT * FROM {table} ORDER BY {command}")
+        else:
+            raise(InvalidParameterTypeError(field, function="orderTable"))
+        records = c.fetchall()
+        conn.commit()
+        conn.close()
+        return records
 
     @overload
     def getFieldNames(self, table: str, returnType: str = "int") -> int: ...
@@ -132,37 +200,6 @@ class pydbops():
         count = self.tableNames(count=True)
         return count
 
-    @overload
-    def orderTable(self, table: str, field: list[str]) -> bool: ...
-
-    @overload
-    def orderTable(self, table: str, field: str) -> bool: ...
-
-    @overload
-    def orderTable(self, table: str, field: dict[str, str]) -> bool: ...
-
-    def orderTable(self, table: str, field: str | list[str] | dict[str, str]) -> bool:
-        if type(field) is str:
-            conn = sqlite3.connect(self.__filepath)
-            c = conn.cursor()
-            c.execute(f"SELECT * FROM {table} ORDER BY {field}")
-        elif type(field) is list[str]:
-            command = ", ".join(["{}".format(v) for v in field])
-            conn = sqlite3.connect(self.__filepath)
-            c = conn.cursor()
-            c.execute(f"SELECT * FROM {table} ORDER BY {command}")
-        elif type(field) is dict[str, str]:
-            command = ", ".join(["{} {}".format(k, v) for k, v in field])
-            conn = sqlite3.connect(self.__filepath)
-            c = conn.cursor()
-            c.execute(f"SELECT * FROM {table} ORDER BY {command}")
-        else:
-            raise(InvalidParameterType(field, function="orderTable"))
-        conn.commit()
-        conn.close()
-        return True
-
-
     def removeEntry(self, table: str, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False, deleteAll: bool = False) -> bool:
         """
         Function for removing records from database.
@@ -201,8 +238,8 @@ class pydbops():
                 for value in record:
                     insert_dictionary[str(k)] = value
                     k = k + 1
-                print(insert_dictionary)
-                self.addEntry(table=table, values=insert_dictionary)
+                # print(insert_dictionary)
+                pydbops.addEntry(self, table=table, values=insert_dictionary)
             self._table = table
             return True
         elif (keyword != ""):  # for deleting record of given keyword
@@ -219,8 +256,8 @@ class pydbops():
                 for value in record:
                     insert_dictionary[str(k)] = value
                     k = k + 1
-                self.addEntry(table=table, values=insert_dictionary)
-            keywordFoundEntries = self.searchEntry(table=table, keyword=keyword, returnType="ids", findAllOccurence=True)
+                pydbops.addEntry(self, table=table, values=insert_dictionary)
+            keywordFoundEntries = pydbops.searchEntry(self, table=table, keyword=keyword, returnType="ids", findAllOccurence=True)
             conn = sqlite3.connect(self.__filepath)
             c = conn.cursor()
             if deleteAllOccurences:
