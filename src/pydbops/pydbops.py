@@ -1,4 +1,4 @@
-from pydbops.UserDefinedExceptions import InvalidReturnTypeError
+from pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterType
 import sqlite3
 from typing import overload
 
@@ -131,6 +131,37 @@ class pydbops():
         """
         count = self.tableNames(count=True)
         return count
+
+    @overload
+    def orderTable(self, table: str, field: list[str]) -> bool: ...
+
+    @overload
+    def orderTable(self, table: str, field: str) -> bool: ...
+
+    @overload
+    def orderTable(self, table: str, field: dict[str, str]) -> bool: ...
+
+    def orderTable(self, table: str, field: str | list[str] | dict[str, str]) -> bool:
+        if type(field) is str:
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            c.execute(f"SELECT * FROM {table} ORDER BY {field}")
+        elif type(field) is list[str]:
+            command = ", ".join(["{}".format(v) for v in field])
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            c.execute(f"SELECT * FROM {table} ORDER BY {command}")
+        elif type(field) is dict[str, str]:
+            command = ", ".join(["{} {}".format(k, v) for k, v in field])
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            c.execute(f"SELECT * FROM {table} ORDER BY {command}")
+        else:
+            raise(InvalidParameterType(field, function="orderTable"))
+        conn.commit()
+        conn.close()
+        return True
+
 
     def removeEntry(self, table: str, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False, deleteAll: bool = False) -> bool:
         """
