@@ -10,7 +10,7 @@ if __name__ == "__main__":
     fields = {"Name" : "TEXT", "Number" : "INTEGER"}
 
     # Creating table
-    d.createTable(tableName="Table1", fields=fields)
+    d.createTable(tableName="table1", fields=fields)
 
     # Creating Table instance
     t1 = d.getTable(table="table1")
