@@ -2,6 +2,6 @@ import pytest
 from pydbops.Database import *
 
 @pytest.fixture(scope="session")
-def db_conn():
+def db_conn() -> Database:
     db = openDatabase("MyDB.db")
     yield db
