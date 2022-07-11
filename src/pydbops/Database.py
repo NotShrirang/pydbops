@@ -156,12 +156,12 @@ class Database(pydbops):
         return super().tableNames(count, list, dictionary)
 
     @overload
-    def updateEntry(self, table: str, values: dict[str, str | int], field: str, whereFieldIs: int) -> bool: ...
+    def updateEntry(self, table: str, values: dict[str, str | int], whereField: str, Is: int) -> bool: ...
 
     @overload
-    def updateEntry(self, table: str, values: dict[str, str | int], field: str, whereFieldIs: str) -> bool: ...
+    def updateEntry(self, table: str, values: dict[str, str | int], whereField: str, Is: str) -> bool: ...
 
-    def updateEntry(self, table: str, values: dict[str, str | int], field: str, whereFieldIs: str | int) -> bool:
+    def updateEntry(self, table: str, values: dict[str, str | int], whereField: str, Is: str | int) -> bool:
         """
         Function for updating values in database.
 
@@ -173,7 +173,7 @@ class Database(pydbops):
         Returns:
             id of the entry inserted.
         """
-        return super().updateEntry(table, values, field, whereFieldIs)
+        return super().updateEntry(table, values, whereField, Is)
 
 
 def openDatabase(filename: str) -> Database:
