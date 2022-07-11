@@ -17,6 +17,7 @@ class Database(pydbops):
         - addEntry() - Function for inserting values in table.
         - createTable() - Creates table of given name.
         - databaseVersion() - Returns sqlite3 version.
+        - dropTable() - Function for deleting table.
         - fetchInOrder() - Function for fetching database entries in given order.
         - getFieldNames() - Function for getting field names.
         - length() - Returns length of table. Returns 0 if table is empty.
