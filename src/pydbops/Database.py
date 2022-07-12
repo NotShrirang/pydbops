@@ -241,5 +241,8 @@ def openDatabase(filename: str) -> Database:
     """
     Creates a database and returns a Database object.
     """
-    d = Database(filepath=filename)
-    return d
+    try:
+        d = Database(filepath=filename)
+        return d
+    except FileNotFoundError:
+        raise(FileNotFoundError(filename))
