@@ -7,7 +7,6 @@ def test_openDatabse():
     with pytest.raises(FileNotFoundError):
         assert openDatabase("mydb.txt") == FileNotFoundError 
 
-
 def test_Database_ops(db_conn: Database):
     d = db_conn
     assert type(d) is Database, f"Type of d is {type(d)}"
