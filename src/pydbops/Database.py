@@ -1,7 +1,8 @@
 from pydbops.pydbops import pydbops
 from pydbops.tables import Table
-from typing import overload
 from pydbops.UserDefinedExceptions import NoSuchTableError
+import sqlite3
+from typing import overload
 
 
 class Database(pydbops):
@@ -30,7 +31,8 @@ class Database(pydbops):
     def __init__(self, filepath: str) -> None:
         super().__init__(filepath)
         self.__filepath = filepath
-        self.tables = self.tableNames(count=False, list=True, dictionary=False)
+        self.tables: list[str] = Database.tableNames(self, count=False, list=True, dictionary=False)
+        # self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
 
     def __str__(self) -> str:
         string = ""
@@ -53,7 +55,38 @@ class Database(pydbops):
         Returns:
             id of the entry inserted.
         """
+        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return super().addEntry(table, values)
+
+    @overload
+    def createIndex(self, indexName:str, tableName: str, columnName: str, unique: bool = False) -> bool: ...
+
+    @overload
+    def createIndex(self, indexName:str, tableName: str, columnName: list[str], unique: bool = False) -> bool: ...
+
+    def createIndex(self, indexName:str, tableName: str, columnName: str | list[str], unique: bool = False) -> bool:
+        """
+        Creates index of given column.
+
+        Args:
+            - indexName (str) : Name of index.
+            - tableName (str) : Name of table.
+            - columnName (str) : Name of column in table.
+            - unique (bool) : If true, unique index will be created.
+
+        Returns:
+            - True if executed.
+        """
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        if unique:
+            c.execute(f"""CREATE UNIQUE INDEX {indexName}\nON {tableName}({columnName})""")
+        else:
+            c.execute(f"""CREATE INDEX {indexName}\nON {tableName}({columnName})""")
+        conn.commit()
+        conn.close()
+        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        return True
 
     def createTable(self, tableName: str, fields: dict[str, str]) -> bool:
         """
@@ -65,9 +98,16 @@ class Database(pydbops):
         Returns:
             - True if executed.
         """
-        ret = super().createTable(tableName, fields)
-        self.tables = self.tableNames(count=False, list=True, dictionary=False)
-        return ret
+        columns = "(" + ", \n".join(["{} {}".format(k, v) for k, v in fields.items()]) + ")"
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        c.execute(f"""CREATE TABLE IF NOT EXISTS {tableName} \n {columns}""")
+        conn.commit()
+        conn.close()
+        self._table = tableName
+        self.tables: list[str] = Database.tableNames(self, count=False, list=True, dictionary=False)
+        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        return True
 
     def databaseVersion(self) -> str:
         """
@@ -85,6 +125,7 @@ class Database(pydbops):
 
         Returns: list of records.
         """
+        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
         ret = super().dropTable(table=table, getData=getData)
         self.tables = self.tableNames(count=False, list=True, dictionary=False)
         return ret
@@ -113,6 +154,26 @@ class Database(pydbops):
         Returns: list of records sorted in given order.
         """
         return super().fetchInOrder(table=table, field=field)
+
+    def getData(self) -> dict[str, dict[str, list[tuple]]]:
+        """
+        Function for getting all data.
+        """
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        mydata: dict[str, dict[str, list[tuple]]] = {}
+        for table in self.tables:
+            mydata[table] = {}
+            column_names = Database.getFieldNames(self, table=table, returnType="list")
+            for column in column_names:
+                c.execute(f"SELECT {column} from {table}")
+                records:list[tuple] = c.fetchall()
+                rec_list: list[str] = []
+                for record in records:
+                    rec_list.append(record[0])
+                mydata[table][column] = rec_list
+        c.close()
+        return mydata
 
     @overload
     def getFieldNames(self, table: str, returnType: str = "list") -> list[str]: ...
@@ -171,6 +232,7 @@ class Database(pydbops):
         Returns:
             True if deleted a record. False if record not found.
         """
+        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return super().removeEntry(table, id, keyword, deleteAllOccurences, deleteAll)
 
     @overload
@@ -216,6 +278,25 @@ class Database(pydbops):
         """
         return super().tableNames(count, list, dictionary)
 
+    def union(self, tableName1:str, tableName2: str, column_name:str) -> list[tuple[str | int]]:
+        """
+        Performs union and returns all distinct rows selected by query.
+
+        Args:
+            - tableName1 (str) : Name of table 1
+            - tableName2 (str) : Name of table 2
+            - column_name (str) : Name of column on which union is to be performed.
+
+        Returns:
+            - list of records.
+        """
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        c.execute(f"SELECT {column_name} from {tableName1} UNION SELECT {column_name} from {tableName2}")
+        records = c.fetchall()
+        c.close()
+        return records
+
     @overload
     def updateEntry(self, table: str, values: dict[str, str | int], whereField: str, Is: int) -> bool: ...
 
@@ -234,6 +315,7 @@ class Database(pydbops):
         Returns:
             id of the entry inserted.
         """
+        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return super().updateEntry(table, values, whereField, Is)
 
 
