@@ -157,7 +157,7 @@ class pydbops():
         columns = []
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
-        data = c.execute(f"SELECT * FROM {table}")
+        c.execute(f"SELECT * FROM {table}")
         self._table = table
         if returnType == "list":
             fields = list(map(lambda x: x[0], c.description))
