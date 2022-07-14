@@ -55,16 +55,16 @@ class Database(pydbops):
         Returns:
             id of the entry inserted.
         """
-        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return super().addEntry(table, values)
 
     @overload
-    def createIndex(self, indexName:str, tableName: str, columnName: str, unique: bool = False) -> bool: ...
+    def createIndex(self, indexName: str, tableName: str, columnName: str, unique: bool = False) -> bool: ...
 
     @overload
-    def createIndex(self, indexName:str, tableName: str, columnName: list[str], unique: bool = False) -> bool: ...
+    def createIndex(self, indexName: str, tableName: str, columnName: list[str], unique: bool = False) -> bool: ...
 
-    def createIndex(self, indexName:str, tableName: str, columnName: str | list[str], unique: bool = False) -> bool:
+    def createIndex(self, indexName: str, tableName: str, columnName: str | list[str], unique: bool = False) -> bool:
         """
         Creates index of given column.
 
@@ -85,7 +85,7 @@ class Database(pydbops):
             c.execute(f"""CREATE INDEX {indexName}\nON {tableName}({columnName})""")
         conn.commit()
         conn.close()
-        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return True
 
     def createTable(self, tableName: str, fields: dict[str, str]) -> bool:
@@ -106,7 +106,7 @@ class Database(pydbops):
         conn.close()
         self._table = tableName
         self.tables: list[str] = Database.tableNames(self, count=False, list=True, dictionary=False)
-        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return True
 
     def databaseVersion(self) -> str:
@@ -125,7 +125,7 @@ class Database(pydbops):
 
         Returns: list of records.
         """
-        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         ret = super().dropTable(table=table, getData=getData)
         self.tables = self.tableNames(count=False, list=True, dictionary=False)
         return ret
@@ -167,7 +167,7 @@ class Database(pydbops):
             column_names = Database.getFieldNames(self, table=table, returnType="list")
             for column in column_names:
                 c.execute(f"SELECT {column} from {table}")
-                records:list[tuple] = c.fetchall()
+                records: list[tuple] = c.fetchall()
                 rec_list: list[str] = []
                 for record in records:
                     rec_list.append(record[0])
@@ -232,8 +232,9 @@ class Database(pydbops):
         Returns:
             True if deleted a record. False if record not found.
         """
-        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
-        return super().removeEntry(table, id, keyword, deleteAllOccurences, deleteAll)
+        ret = super().removeEntry(table, id, keyword, deleteAllOccurences, deleteAll)
+        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        return ret
 
     @overload
     def searchEntry(self, table: str, id: int = -1, keyword: str = "", returnType: str = "ids", findAllOccurence: bool = False) -> int: ...
@@ -278,7 +279,7 @@ class Database(pydbops):
         """
         return super().tableNames(count, list, dictionary)
 
-    def union(self, tableName1:str, tableName2: str, column_name:str) -> list[tuple[str | int]]:
+    def union(self, tableName1: str, tableName2: str, column_name: str) -> list[tuple[str | int]]:
         """
         Performs union and returns all distinct rows selected by query.
 
@@ -315,14 +316,17 @@ class Database(pydbops):
         Returns:
             id of the entry inserted.
         """
-        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
-        return super().updateEntry(table, values, whereField, Is)
+        ret = super().updateEntry(table, values, whereField, Is)
+        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        return ret
 
 
 def openDatabase(filename: str) -> Database:
     """
     Creates a database and returns a Database object.
     """
+    if filename[-3:] != ".db":
+        raise(FileNotFoundError)
     try:
         d = Database(filepath=filename)
         return d
