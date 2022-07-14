@@ -60,25 +60,6 @@ class pydbops():
         self._table = table
         return int(id[0])
 
-    def createTable(self, tableName: str, fields: dict[str, str]) -> bool:
-        """
-        Creates table of given name.
-
-        Args:
-            - tableName (str) : Name of table.
-            - fields (dict) : Dictionary of (columns names : data types)
-        Returns:
-            - True if executed.
-        """
-        columns = "(" + ", \n".join(["{} {}".format(k, v) for k, v in fields.items()]) + ")"
-        conn = sqlite3.connect(self.__filepath)
-        c = conn.cursor()
-        c.execute(f"""CREATE TABLE IF NOT EXISTS {tableName} \n {columns}""")
-        conn.commit()
-        conn.close()
-        self._table = tableName
-        return True
-
     def databaseVersion(self) -> str:
         """
         Returns sqlite3 version.
@@ -177,18 +158,16 @@ class pydbops():
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
         data = c.execute(f"SELECT * FROM {table}")
-        conn.close()
         self._table = table
-        for column in data.description:
-            columns.append(column)
         if returnType == "list":
-            fields = []
-            for column in columns:
-                fields.append(column[0])
+            fields = list(map(lambda x: x[0], c.description))
+            conn.close()
             return fields
         elif returnType == "int":
+            conn.close()
             return len(columns)
         else:
+            conn.close()
             raise(InvalidReturnTypeError(returnType, function="getFieldNames"))
 
     def length(self) -> int:
