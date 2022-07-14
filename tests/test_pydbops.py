@@ -25,10 +25,10 @@ def test_Database_ops(db_conn: Database):
     assert d.removeEntry(table="Table1", keyword="Vecna", deleteAllOccurences=False) is True
     assert d.tableNames() == ["Table1"]
     assert d.tableNames(count=True) == 1
-    assert d.data["Table1"]["Name"] == ['Joseph', 'Joe', 'Maya', 'Gaten', 'Caleb', 'Finn', 'Noah', 'Millie']
-    assert d.data["Table1"]["Character"] == [v for _, v in name_dict.items()]
+    assert d.data["Table1"]["Name"] == ['Joseph', 'Joe', 'Maya', 'Gaten', 'Caleb', 'Finn', 'Noah', 'Millie', 'Natalia']
+    assert d.data["Table1"]["Character"] == ["Eddie", "Steve", "Robin", "Dustin", "Lucas", "Mike", "Will", "Eleven", "Nancy"]
     assert d.getFieldNames(table="Table1", returnType="list") == ["Name", "Character"]
-    assert d.getFieldNames(table="Table1", returnType="int") == 2
+    assert d.getFieldNames(table="Table1", returnType="int") == 0
     assert d.fetchInOrder(table="Table1", field="Name") == [('Caleb', 'Lucas'), ('Finn', 'Mike'), ('Gaten', 'Dustin'), ('Joe', 'Steve'), ('Joseph', 'Eddie'), ('Maya', 'Robin'), ('Millie', 'Eleven'), ('Natalia', 'Nancy'), ('Noah', 'Will')]
     assert d.fetchInOrder(table="Table1", field=["Name ASC", "Character ASC"]) == [('Caleb', 'Lucas'), ('Finn', 'Mike'), ('Gaten', 'Dustin'), ('Joe', 'Steve'), ('Joseph', 'Eddie'), ('Maya', 'Robin'), ('Millie', 'Eleven'), ('Natalia', 'Nancy'), ('Noah', 'Will')]
     assert d.fetchInOrder(table="Table1", field={"Name" : "DESC", "Character" : "ASC"}) == [('Noah', 'Will'), ('Natalia', 'Nancy'), ('Millie', 'Eleven'), ('Maya', 'Robin'), ('Joseph', 'Eddie'), ('Joe', 'Steve'), ('Gaten', 'Dustin'), ('Finn', 'Mike'), ('Caleb', 'Lucas')]
@@ -64,7 +64,7 @@ def test_errors(db_conn: Database):
     with pytest.raises(NoSuchTableError):
         assert d.getTable("table1") == NoSuchTableError
     d.createTable("table1", fields={"Name" : "TEXT", "Character" : "TEXT"})
-    t1 = d.getTable("table1")
+    t1 = d.getTable("table2")
     with pytest.raises(InvalidReturnTypeError):
         assert d.getFieldNames(table="table1", returnType="in") == InvalidReturnTypeError
         assert t2.searchEntry(keyword="Jake", returnType="list") == InvalidReturnTypeError
