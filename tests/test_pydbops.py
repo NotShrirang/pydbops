@@ -26,6 +26,8 @@ def test_Database_ops(db_conn: Database):
     assert d.removeEntry(table="Table1", keyword="Vecna", deleteAllOccurences=False) is True
     assert d.tableNames() == ["Table1"]
     assert d.tableNames(count=True) == 1
+    assert d.data["Table1"]["Name"] == ['Joseph', 'Joe', 'Maya', 'Gaten', 'Caleb', 'Finn', 'Noah', 'Millie']
+    assert d.data["Table1"]["Character"] == [v for _, v in name_dict.items()]
     assert d.getFieldNames(table="Table1", returnType="list") == ["Name", "Character"]
     assert d.getFieldNames(table="Table1", returnType="int") == 2
     assert d.fetchInOrder(table="Table1", field="Name") == [('Caleb', 'Lucas'), ('Finn', 'Mike'), ('Gaten', 'Dustin'), ('Joe', 'Steve'), ('Joseph', 'Eddie'), ('Maya', 'Robin'), ('Millie', 'Eleven'), ('Natalia', 'Nancy'), ('Noah', 'Will')]
@@ -70,5 +72,9 @@ def test_errors(db_conn: Database):
         assert d.tableNames(count=True, dictionary=True) == InvalidReturnTypeError
     with pytest.raises(InvalidParameterTypeError):
         assert t1.fetchInOrder(field=1) == InvalidParameterTypeError
-    
 
+@pytest.mark.xfail
+def test_xfail(db_conn: Database):
+    d = db_conn
+    assert d.data["table3"]
+    assert d.data["table1"]["mark"]
