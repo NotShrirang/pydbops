@@ -360,6 +360,7 @@ class Database(pydbops):
             values (dict): key is field name and value is value to be updated.
             field (str) : field name to be checked for entry to be updated.
             whereFieldIs (str | int) : field value to be checked.
+        
         Returns:
             id of the entry inserted.
         """
