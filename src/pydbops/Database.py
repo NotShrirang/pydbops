@@ -240,6 +240,28 @@ class Database(pydbops):
         """
         return super().length()
 
+    def minus(self, tableName1: str, tableName2: str, column_name: str) -> list[tuple[str | int]]:
+        """
+        Fetches rows which are present in first query but absent in second.
+
+        Args:
+            - tableName1 (str) : Name of table 1
+            - tableName2 (str) : Name of table 2
+            - column_name (str) : Name of column on which operation is to be performed.
+
+        Returns:
+            - list of records.
+        """
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        c.execute(f"SELECT {column_name} from {tableName1} MINUS SELECT {column_name} from {tableName2}")
+        records = c.fetchall()
+        c.close()
+        records_list = []
+        for record in records:
+            records_list.append(record[0])
+        return records_list
+
     def removeEntry(self, table: str, id: int = -1, keyword: str = "", deleteAllOccurences: bool = False, deleteAll: bool = False) -> bool:
         """
         Function for removing records from database.
