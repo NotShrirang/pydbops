@@ -33,15 +33,21 @@ def test_Database_ops(db_conn: Database):
     assert d.fetchInOrder(table="Table1", field=["Name ASC", "Character ASC"]) == [('Caleb', 'Lucas'), ('Finn', 'Mike'), ('Gaten', 'Dustin'), ('Joe', 'Steve'), ('Joseph', 'Eddie'), ('Maya', 'Robin'), ('Millie', 'Eleven'), ('Natalia', 'Nancy'), ('Noah', 'Will')]
     assert d.fetchInOrder(table="Table1", field={"Name" : "DESC", "Character" : "ASC"}) == [('Noah', 'Will'), ('Natalia', 'Nancy'), ('Millie', 'Eleven'), ('Maya', 'Robin'), ('Joseph', 'Eddie'), ('Joe', 'Steve'), ('Gaten', 'Dustin'), ('Finn', 'Mike'), ('Caleb', 'Lucas')]
     assert d.addEntry(table="Table1", values={"Name": "Jamie", "Character" : "Vecna"}) == i+1
+    name_dict = {"Eddie" : 1, "Steve" : 2, "Robin" : 3, "Dustin" : 4, "Lucas" : 5, "Mike" : 6, "Will" : 7, "Jane" : 8, "Nancy" : 9}
+    for name, num in name_dict.items():
+        d.addEntry(table="Table2", values={"Name" : f"{name}", "Character" : f"{num}"})
+    assert d.union(tableName1="Table1", tableName2="Table2", column_name="Name") == ['Caleb', 'Dustin', 'Eddie', 'Finn', 'Gaten', 'Jane', 'Joe', 'Joseph', 'Lucas', 'Maya', 'Mike', 'Millie', 'Nancy', 'Natalia', 'Noah', 'Robin', 'Steve', 'Will']
+    assert d.createIndex(indexName="MyIndex", tableName="Table1", columnName="Name", unique=False) is True
     assert d.removeEntry(table="Table1", keyword="Vecna", deleteAllOccurences=True)
     assert d.removeEntry(table="Table1", deleteAll=True)
     d.addEntry(table="Table1", values={"Name": "Jamie", "Character" : "Vecna"})
-    records = d.dropTable("table1", getData=True)
+    records = d.dropTable("Table1", getData=True)
     assert records == [("Jamie", "Vecna"), ]
+    assert d.dropTable("Table2", getData=False) == []
 
 def test_table_ops(db_conn: Database):
-    db_conn.createTable("table2", {"Name" : "TEXT", "Character" : "TEXT"})
-    t2 = db_conn.getTable("table2")
+    db_conn.createTable("Table2", {"Name" : "TEXT", "Character" : "TEXT"})
+    t2 = db_conn.getTable("Table2")
     assert type(t2) is Table, f"Type of t2 is {type(t2)}"
     value_dict = {"Name" : "Andy", "Character" : "Jake"}
     assert t2.addEntry(values=value_dict) == 1
@@ -60,7 +66,7 @@ def test_table_ops(db_conn: Database):
 
 def test_errors(db_conn: Database):
     d = db_conn
-    t2 = d.getTable("table2")
+    t2 = d.getTable("Table2")
     with pytest.raises(NoSuchTableError):
         assert d.getTable("table1") == NoSuchTableError
     d.createTable("table1", fields={"Name" : "TEXT", "Character" : "TEXT"})
