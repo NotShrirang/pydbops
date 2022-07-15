@@ -246,7 +246,7 @@ class Database(pydbops):
 
     def minus(self, tableName1: str, tableName2: str, column_name: str) -> list[tuple[str | int]]:
         """
-        Fetches rows which are present in first query but absent in second.
+        Fetches rows which are present in first query but absent in second. ("except" operation)
 
         Args:
             - tableName1 (str) : Name of table 1
@@ -258,7 +258,7 @@ class Database(pydbops):
         """
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
-        c.execute(f"SELECT {column_name} from {tableName1} MINUS SELECT {column_name} from {tableName2}")
+        c.execute(f"SELECT {column_name} from {tableName1} EXCEPT SELECT {column_name} from {tableName2}")
         records = c.fetchall()
         c.close()
         records_list = []
