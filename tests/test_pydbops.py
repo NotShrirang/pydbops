@@ -33,10 +33,13 @@ def test_Database_ops(db_conn: Database):
     assert d.fetchInOrder(table="Table1", field=["Name ASC", "Character ASC"]) == [('Caleb', 'Lucas'), ('Finn', 'Mike'), ('Gaten', 'Dustin'), ('Joe', 'Steve'), ('Joseph', 'Eddie'), ('Maya', 'Robin'), ('Millie', 'Eleven'), ('Natalia', 'Nancy'), ('Noah', 'Will')]
     assert d.fetchInOrder(table="Table1", field={"Name" : "DESC", "Character" : "ASC"}) == [('Noah', 'Will'), ('Natalia', 'Nancy'), ('Millie', 'Eleven'), ('Maya', 'Robin'), ('Joseph', 'Eddie'), ('Joe', 'Steve'), ('Gaten', 'Dustin'), ('Finn', 'Mike'), ('Caleb', 'Lucas')]
     assert d.addEntry(table="Table1", values={"Name": "Jamie", "Character" : "Vecna"}) == i+1
+    assert d.createTable("Table2", {"Name" : "TEXT", "Character" : "TEXT"}) is True
     name_dict = {"Eddie" : 1, "Steve" : 2, "Robin" : 3, "Dustin" : 4, "Lucas" : 5, "Mike" : 6, "Will" : 7, "Jane" : 8, "Nancy" : 9}
     for name, num in name_dict.items():
         d.addEntry(table="Table2", values={"Name" : f"{name}", "Character" : f"{num}"})
-    assert d.union(tableName1="Table1", tableName2="Table2", column_name="Name") == ['Caleb', 'Dustin', 'Eddie', 'Finn', 'Gaten', 'Jane', 'Joe', 'Joseph', 'Lucas', 'Maya', 'Mike', 'Millie', 'Nancy', 'Natalia', 'Noah', 'Robin', 'Steve', 'Will']
+    assert d.union(tableName1="Table1", tableName2="Table2", column_name="Name") == ['Caleb', 'Dustin', 'Eddie', 'Finn', 'Gaten', 'Jamie', 'Jane', 'Joe', 'Joseph', 'Lucas', 'Maya', 'Mike', 'Millie', 'Nancy', 'Natalia', 'Noah', 'Robin', 'Steve', 'Will']
+    assert d.intersection(tableName1="Table1", tableName2="Table2", column_name="Name") == []
+    assert d.minus(tableName1="Table1", tableName2="Table2", column_name="Name") == ['Caleb', 'Finn', 'Gaten', 'Jamie', 'Joe', 'Joseph', 'Maya', 'Millie', 'Natalia', 'Noah']
     assert d.createIndex(indexName="MyIndex", tableName="Table1", columnName="Name", unique=False) is True
     assert d.removeEntry(table="Table1", keyword="Vecna", deleteAllOccurences=True)
     assert d.removeEntry(table="Table1", deleteAll=True)
@@ -70,6 +73,7 @@ def test_errors(db_conn: Database):
     with pytest.raises(NoSuchTableError):
         assert d.getTable("table1") == NoSuchTableError
     d.createTable("table1", fields={"Name" : "TEXT", "Character" : "TEXT"})
+    d.createTable("table2", fields={"Name" : "TEXT", "Character" : "TEXT"})
     t1 = d.getTable("table2")
     with pytest.raises(InvalidReturnTypeError):
         assert d.getFieldNames(table="table1", returnType="in") == InvalidReturnTypeError
@@ -77,9 +81,6 @@ def test_errors(db_conn: Database):
         assert d.tableNames(count=True, dictionary=True) == InvalidReturnTypeError
     with pytest.raises(InvalidParameterTypeError):
         assert t1.fetchInOrder(field=1) == InvalidParameterTypeError
-
-@pytest.mark.xfail
-def test_xfail(db_conn: Database):
-    d = db_conn
-    assert d.data["table3"]
-    assert d.data["table1"]["mark"]
+    with pytest.raises(KeyError):
+        assert d.data["table3"] == KeyError
+        assert d.data["table1"]["mark"] == KeyError
