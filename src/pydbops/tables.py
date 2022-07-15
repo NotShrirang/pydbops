@@ -207,8 +207,8 @@ class Table(pydbops):
         Accesses records in a table.
 
         Args:
-            - count (bool) : When True, function returns total number of tables.
-            - list (bool) : When True, function returns table names.
+            - count (bool) : When True, function returns total number of records.
+            - list (bool) : When True, function returns records.
 
         Returns: int or list of records
         """
