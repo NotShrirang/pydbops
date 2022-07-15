@@ -37,13 +37,17 @@ import pydbops as db
 4. <code>databaseVersion()</code> - Returns sqlite3 version.
 5. <code>dropTable()</code> - Function for deleting table.
 6. <code>fetchInOrder()</code> - Function for fetching database entries in given order.
-7. <code>getFieldNames()</code> - Function for getting field names.
-8. <code>getTable()</code> - Creates Table instance.
-9. <code>length()</code> - Returns length of database.
-10. <code>removeEntry()</code> - Function for removing records from database.
-11. <code>searchEntry()</code> - Function for searching in database.
-12. <code>tableNames()</code> - Function for retrieving tables in a database.
-13. <code>updateEntry()</code> - Function for updating values in database.
+7. <code>getData()</code> - Function for getting all data.
+8. <code>getFieldNames()</code> - Function for getting field names.
+9. <code>getTable()</code> - Creates Table instance.
+10. <code>intersection()</code> - Performs intersection and returns all distinct rows selected by query.
+11. <code>length()</code> - Returns length of database.
+12. <code>minus()</code> - Fetches rows which are present in first query but absent in second.
+13. <code>removeEntry()</code> - Function for removing records from database.
+14. <code>searchEntry()</code> - Function for searching in database.
+15. <code>tableNames()</code> - Function for retrieving tables in a database.
+16. <code>union()</code> - Performs union and returns all distinct rows selected by query.
+17. <code>updateEntry()</code> - Function for updating values in database.
 
 For printing data in database, you can use default print() method by passing Database object in it.
 
