@@ -20,19 +20,23 @@ class Database(pydbops):
         - databaseVersion() - Returns sqlite3 version.
         - dropTable() - Function for deleting table.
         - fetchInOrder() - Function for fetching database entries in given order.
+        - getData() - Function for getting all data.
         - getFieldNames() - Function for getting field names.
+        - getTable() - Creates Table instance.
+        - intersection() - Performs intersection and returns all distinct rows selected by query.
         - length() - Returns length of table. Returns 0 if table is empty.
+        - minus() - Fetches rows which are present in first query but absent in second.
         - removeEntry() - Function for removing records from table.
         - searchEntry() - Function for searching in table.
         - tableNames() - Accesses tables in a database.
+        - union() - Performs union and returns all distinct rows selected by query.
         - updateEntry() - Function for updating values in table.
-        - values() - Accesses records in a table.
     """
     def __init__(self, filepath: str) -> None:
         super().__init__(filepath)
         self.__filepath = filepath
         self.tables: list[str] = Database.tableNames(self, count=False, list=True, dictionary=False)
-        # self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
 
     def __str__(self) -> str:
         string = ""
@@ -105,7 +109,7 @@ class Database(pydbops):
         conn.commit()
         conn.close()
         self._table = tableName
-        self.tables: list[str] = Database.tableNames(self, count=False, list=True, dictionary=False)
+        self.tables.append(tableName)
         self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return True
 
@@ -360,7 +364,7 @@ class Database(pydbops):
             values (dict): key is field name and value is value to be updated.
             field (str) : field name to be checked for entry to be updated.
             whereFieldIs (str | int) : field value to be checked.
-        
+
         Returns:
             id of the entry inserted.
         """
