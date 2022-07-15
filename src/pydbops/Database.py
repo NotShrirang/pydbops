@@ -296,7 +296,10 @@ class Database(pydbops):
         c.execute(f"SELECT {column_name} from {tableName1} UNION SELECT {column_name} from {tableName2}")
         records = c.fetchall()
         c.close()
-        return records
+        records_list = []
+        for record in records:
+            records_list.append(record[0])
+        return records_list
 
     @overload
     def updateEntry(self, table: str, values: dict[str, str | int], whereField: str, Is: int) -> bool: ...
