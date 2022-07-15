@@ -210,6 +210,28 @@ class Database(pydbops):
         else:
             raise(NoSuchTableError(table=table))
 
+    def intersection(self, tableName1: str, tableName2: str, column_name: str) -> list[tuple[str | int]]:
+        """
+        Performs intersection and returns all distinct rows selected by query.
+
+        Args:
+            - tableName1 (str) : Name of table 1
+            - tableName2 (str) : Name of table 2
+            - column_name (str) : Name of column on which intersection is to be performed.
+
+        Returns:
+            - list of records.
+        """
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        c.execute(f"SELECT {column_name} from {tableName1} INTERSECT SELECT {column_name} from {tableName2}")
+        records = c.fetchall()
+        c.close()
+        records_list = []
+        for record in records:
+            records_list.append(record[0])
+        return records_list
+
     def length(self) -> int:
         """
         Checks if database is empty.
