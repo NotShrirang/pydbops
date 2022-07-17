@@ -379,7 +379,7 @@ class pydbops():
             field (str) : field name to be checked for entry to be updated.
             whereFieldIs (str | int) : field value to be checked.
         Returns:
-            id of the entry inserted.
+            id of the entry updated.
         """
         command = ", ".join(["\n{} = :{}".format(k, k) for k, _ in values.items()]) + f"\nWHERE {whereField} = :{whereField}"
         values[whereField] = Is
