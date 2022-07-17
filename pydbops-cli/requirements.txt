@@ -1,0 +1,6 @@
+pydbops == 0.0.5
+sqlite3 == 2.6.0
+pprint
+json
+subprocess
+sys
