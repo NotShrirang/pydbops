@@ -366,7 +366,7 @@ class Database(pydbops):
             whereFieldIs (str | int) : field value to be checked.
 
         Returns:
-            id of the entry inserted.
+            id of the entry updated.
         """
         ret = super().updateEntry(table, values, whereField, Is)
         self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
