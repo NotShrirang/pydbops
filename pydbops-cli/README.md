@@ -34,4 +34,4 @@ Useful commands:
 5. <code>REMOVE <_table_name_></code> - Removes entry of given id.
 6. <code>SHOW</code> - Displays whole database.
 7. <code>--help</code> - Shows helpful commands.
-8. <code>--execute</code>Allows standard SQL queries to be executed.
+8. <code>--execute</code> - Allows standard SQL queries to be executed.
