@@ -19,3 +19,5 @@ pydb init
 ```
 
 Use <code>--help</code> for commands.
+
+Allows standard SQL queries to be executed in <code>--execute</code> mode.
