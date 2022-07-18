@@ -1,7 +1,6 @@
 import json
-from pydbops import *
+from src.pydbops.Database import *
 import sqlite3
-from pprint import pprint
 
 class Pydbops_cli():
     def __init__(self) -> None:
