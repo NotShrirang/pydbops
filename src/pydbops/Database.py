@@ -1,3 +1,4 @@
+import os
 from pydbops.pydbops import pydbops
 from pydbops.tables import Table
 from pydbops.UserDefinedExceptions import NoSuchTableError
@@ -378,6 +379,11 @@ def openDatabase(filename: str) -> Database:
     Creates a database and returns a Database object.
     """
     if filename[-3:] != ".db":
+        raise(FileNotFoundError)
+    
+    index = filename.rfind("/")
+    file_path = filename[index:]
+    if not os.path.isdir(file_path):
         raise(FileNotFoundError)
     try:
         d = Database(filepath=filename)
