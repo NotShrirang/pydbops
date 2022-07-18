@@ -35,3 +35,7 @@ Useful commands:
 6. <code>SHOW</code> - Displays whole database.
 7. <code>--help</code> - Shows helpful commands.
 8. <code>--execute</code> - Allows standard SQL queries to be executed.
+
+## Requirements:
+- Python >= 3.6 - <a href="https://www.python.org/">python.org</a>
+- Windows - x86 (64 bit.)
