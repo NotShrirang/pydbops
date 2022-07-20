@@ -1,5 +1,4 @@
 from src.pydbops.Database import * 
-from src.pydbops.pydbops import *
 
 if __name__ == "__main__":
 
@@ -17,6 +16,12 @@ if __name__ == "__main__":
         # Adding entry in table with Database instance.
         d.addEntry(table="Table1", values={"Name" : f"{name}", "Character" : f"{char}"})
 
+    print(d.searchEntry(table="Table1", keyword="Maya", returnType="ids", findAllOccurence=True), "1")
+
+    d.removeEntry(table="Table1", keyword="Joe", deleteAllOccurences=True)
+
+    print(d.searchEntry(table="Table1", keyword="Maya", returnType="ids", findAllOccurence=True))
+    exit(1)
     d.createTable(tableName="Table2", fields={"Name" : "TEXT", "Number" : "INTEGER"})
 
     # Creating an index
