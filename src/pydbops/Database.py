@@ -1,7 +1,7 @@
 import os
-from pydbops.pydbops import pydbops
-from pydbops.tables import Table
-from pydbops.UserDefinedExceptions import NoSuchTableError
+from src.pydbops.pydbops import *
+from src.pydbops.tables import Table
+from src.pydbops.UserDefinedExceptions import NoSuchTableError
 import sqlite3
 from typing import overload
 
@@ -382,9 +382,10 @@ def openDatabase(filename: str) -> Database:
         raise(FileNotFoundError)
     
     index = filename.rfind("/")
-    file_path = filename[index:]
-    if not os.path.isdir(file_path):
-        raise(FileNotFoundError)
+    if not (index == -1):
+        file_path = filename[index:]
+        if not os.path.isdir(file_path):
+            raise(FileNotFoundError)
     try:
         d = Database(filepath=filename)
         return d
