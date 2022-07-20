@@ -1,7 +1,7 @@
 import os
-from src.pydbops.pydbops import *
-from src.pydbops.tables import Table
-from src.pydbops.UserDefinedExceptions import NoSuchTableError
+from pydbops.pydbops import pydbops
+from pydbops.tables import Table
+from pydbops.UserDefinedExceptions import NoSuchTableError
 import sqlite3
 from typing import overload
 
@@ -37,7 +37,7 @@ class Database(pydbops):
         super().__init__(filepath)
         self.__filepath = filepath
         self.tables: list[str] = Database.tableNames(self, count=False, list=True, dictionary=False)
-        self.data:dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
 
     def __str__(self) -> str:
         string = ""
@@ -380,7 +380,7 @@ def openDatabase(filename: str) -> Database:
     """
     if filename[-3:] != ".db":
         raise(FileNotFoundError)
-    
+
     index = filename.rfind("/")
     if not (index == -1):
         file_path = filename[index:]
