@@ -1,4 +1,4 @@
-from pydbops.pydbops import pydbops
+from src.pydbops.pydbops import *
 import sqlite3
 from typing import overload
 
