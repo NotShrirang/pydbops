@@ -42,6 +42,8 @@ def test_Database_ops(db_conn: Database):
     assert d.minus(tableName1="Table1", tableName2="Table2", column_name="Name") == ['Caleb', 'Finn', 'Gaten', 'Jamie', 'Joe', 'Joseph', 'Maya', 'Millie', 'Natalia', 'Noah']
     assert d.createIndex(indexName="MyIndex", tableName="Table1", columnName="Name", unique=False) is True
     assert d.removeEntry(table="Table1", keyword="Vecna", deleteAllOccurences=True)
+    assert d.searchEntry(table="Table1", keyword="Steve", returnType="ids", findAllOccurence=False) == 2
+    assert d.searchEntry(table="Table1", keyword="Steve", returnType="ids", findAllOccurence=True) == [2]
     assert d.removeEntry(table="Table1", deleteAll=True)
     d.addEntry(table="Table1", values={"Name": "Jamie", "Character" : "Vecna"})
     records = d.dropTable("Table1", getData=True)
