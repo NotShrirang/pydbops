@@ -1,4 +1,4 @@
-from src.pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterTypeError
+from pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterTypeError
 import sqlite3
 from typing import overload
 
@@ -263,10 +263,10 @@ class pydbops():
             columns = pydbops.getFieldNames(self, table=table, returnType="list")
             for columnName in columns:
                 c.execute(f"SELECT oid from {table} WHERE {columnName} = '{str(keyword)}'")
-                recs:list = c.fetchall()
+                recs: list = c.fetchall()
                 for id in recs:
                     ids.append(id[0])
-            if findAllOccurence: # All occurences
+            if findAllOccurence:  # All occurences
                 if returnType == "ids":
                     conn.close()
                     return ids
@@ -275,7 +275,7 @@ class pydbops():
                     conn.close()
                     recs = c.fetchall()
                     return recs
-            else: # First occurence
+            else:  # First occurence
                 if returnType == "ids":
                     conn.close()
                     return ids[0]
