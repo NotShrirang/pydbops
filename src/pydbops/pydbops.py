@@ -1,4 +1,4 @@
-from pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterTypeError
+from src.pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterTypeError
 import sqlite3
 from typing import overload
 
@@ -206,36 +206,10 @@ class pydbops():
             c = conn.cursor()
             c.execute(f"DELETE from {table} WHERE oid = {id}")
             conn.commit()
-            c.execute(f"SELECT * from {table}")
-            records = c.fetchall()
-            c.execute(f"DELETE from {table}")
-            conn.commit()
             conn.close()
-            for record in records:
-                insert_dictionary = {}
-                k = 1
-                for value in record:
-                    insert_dictionary[str(k)] = value
-                    k = k + 1
-                # print(insert_dictionary)
-                pydbops.addEntry(self, table=table, values=insert_dictionary)
             self._table = table
             return True
         elif (keyword != ""):  # for deleting record of given keyword
-            conn = sqlite3.connect(self.__filepath)
-            c = conn.cursor()
-            c.execute(f"SELECT * from {table}")
-            records = c.fetchall()
-            c.execute(f"DELETE from {table}")
-            conn.commit()
-            conn.close()
-            for record in records:
-                insert_dictionary = {}
-                k = 1
-                for value in record:
-                    insert_dictionary[str(k)] = value
-                    k = k + 1
-                pydbops.addEntry(self, table=table, values=insert_dictionary)
             keywordFoundEntries = pydbops.searchEntry(self, table=table, keyword=keyword, returnType="ids", findAllOccurence=True)
             conn = sqlite3.connect(self.__filepath)
             c = conn.cursor()
@@ -273,6 +247,7 @@ class pydbops():
 
         Returns: list or int.
         """
+        self._table = table
         if returnType not in ["ids", "values"]:
             raise(InvalidReturnTypeError(returnType, function="searchEntry"))
         conn = sqlite3.connect(self.__filepath)
@@ -281,30 +256,34 @@ class pydbops():
             c.execute(f"SELECT * from {table} WHERE oid = {id}")
             records = c.fetchone()
             self._table = table
+            conn.close()
             return records
         elif keyword != "":
-            c.execute(f"SELECT * from {table}")
-            records = c.fetchall()
-            conn.close()
-            ids = []
-            i = 1
-            for record in records:
-                if keyword in record:
-                    if findAllOccurence:
-                        if returnType == "ids":
-                            ids.append(i)
-                        else:
-                            ids.append(record)
-                    else:
-                        if returnType == "ids":
-                            return i
-                        else:
-                            return record
+            ids: list[int] = []
+            columns = pydbops.getFieldNames(self, table=table, returnType="list")
+            for columnName in columns:
+                c.execute(f"SELECT oid from {table} WHERE {columnName} = '{str(keyword)}'")
+                recs:list = c.fetchall()
+                for id in recs:
+                    ids.append(id[0])
+            if findAllOccurence: # All occurences
+                if returnType == "ids":
+                    conn.close()
+                    return ids
                 else:
-                    pass
-                i = i + 1
-            self._table = table
-            return ids
+                    c.execute(f"SELECT * from {table} WHERE {columnName} = '{str(keyword)}'")
+                    conn.close()
+                    recs = c.fetchall()
+                    return recs
+            else: # First occurence
+                if returnType == "ids":
+                    conn.close()
+                    return ids[0]
+                else:
+                    c.execute(f"SELECT * from {table} WHERE {columnName} = '{str(keyword)}'")
+                    recs = c.fetchall()
+                    conn.close()
+                    return recs[0]
         else:
             return False
 
