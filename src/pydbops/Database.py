@@ -37,7 +37,11 @@ class Database(pydbops):
         super().__init__(filepath)
         self.__filepath = filepath
         self.tables: list[str] = Database.tableNames(self, count=False, list=True, dictionary=False)
-        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
+        # self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
+
+    @property
+    def data(self) -> dict[str, dict[str, list[tuple]]]:
+        return Database.getData(self=self)
 
     def __str__(self) -> str:
         string = ""
