@@ -1,6 +1,6 @@
 import pytest
-from pydbops.Database import *
-from pydbops.UserDefinedExceptions import InvalidParameterTypeError, InvalidReturnTypeError, NoSuchTableError
+from src.pydbops.Database import *
+from src.pydbops.UserDefinedExceptions import InvalidParameterTypeError, InvalidReturnTypeError, NoSuchTableError
 from pytest import *
 
 def test_openDatabse():
