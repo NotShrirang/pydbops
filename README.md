@@ -2,7 +2,7 @@
 
 # pydbops
 
-[![v0.0.5](https://img.shields.io/badge/version-v0.0.5-red.svg?style=flat&logo=)](https://github.com/NotShrirang/pydbops) 
+[![v0.0.6](https://img.shields.io/badge/version-v0.0.5-red.svg?style=flat&logo=)](https://github.com/NotShrirang/pydbops) 
 [![PyPI Latest Release](https://img.shields.io/pypi/v/pydbops.svg)](https://pypi.org/project/pydbops/)
 ![Tests](https://github.com/NotShrirang/pydbops/actions/workflows/test.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat&logo=license)](https://github.com/NotShrirang/pydbops/blob/main/LICENSE)
