@@ -35,6 +35,7 @@ Useful commands:
 6. <code>SHOW</code> - Displays whole database.
 7. <code>--help</code> - Shows helpful commands.
 8. <code>--execute</code> - Allows standard SQL queries to be executed.
+9. <code>close</code> - Terminates the runnning mode.
 
 ## Requirements:
 - Python >= 3.6 - <a href="https://www.python.org/">python.org</a>
