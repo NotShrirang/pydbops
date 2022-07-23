@@ -1,4 +1,4 @@
-from src.pydbops.Database import * 
+from src.pydbops.database import * 
 
 if __name__ == "__main__":
 
