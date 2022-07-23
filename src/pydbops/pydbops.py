@@ -3,7 +3,7 @@ import sqlite3
 from typing import overload
 
 
-class pydbops():
+class Pydbops():
     """
     Base class for database operations.
 
@@ -210,7 +210,7 @@ class pydbops():
             self._table = table
             return True
         elif (keyword != ""):  # for deleting record of given keyword
-            keywordFoundEntries = pydbops.searchEntry(self, table=table, keyword=keyword, returnType="ids", findAllOccurence=True)
+            keywordFoundEntries = Pydbops.searchEntry(self, table=table, keyword=keyword, returnType="ids", findAllOccurence=True)
             conn = sqlite3.connect(self.__filepath)
             c = conn.cursor()
             if deleteAllOccurences:
@@ -260,7 +260,7 @@ class pydbops():
             return records
         elif keyword != "":
             ids: list[int] = []
-            columns = pydbops.getFieldNames(self, table=table, returnType="list")
+            columns = Pydbops.getFieldNames(self, table=table, returnType="list")
             for columnName in columns:
                 c.execute(f"SELECT oid from {table} WHERE {columnName} = '{str(keyword)}'")
                 recs: list = c.fetchall()
