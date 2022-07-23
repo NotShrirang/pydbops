@@ -3,9 +3,9 @@ README.md
 pyproject.toml
 setup.cfg
 setup.py
-src/pydbops/Database.py
 src/pydbops/UserDefinedExceptions.py
 src/pydbops/__init__.py
+src/pydbops/database.py
 src/pydbops/py.typed
 src/pydbops/pydbops.py
 src/pydbops/tables.py
