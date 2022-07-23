@@ -1,9 +1,9 @@
-from pydbops.pydbops import pydbops
+from pydbops.pydbops import Pydbops
 import sqlite3
 from typing import overload
 
 
-class Table(pydbops):
+class Table(Pydbops):
     """
     Class for representing tables in database.
     Represents single table in a database.
