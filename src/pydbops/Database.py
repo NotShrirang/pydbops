@@ -63,7 +63,6 @@ class Database(Pydbops):
         Returns:
             id of the entry inserted.
         """
-        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return super().addEntry(table, values)
 
     @overload
@@ -93,7 +92,6 @@ class Database(Pydbops):
             c.execute(f"""CREATE INDEX {indexName}\nON {tableName}({columnName})""")
         conn.commit()
         conn.close()
-        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return True
 
     def createTable(self, tableName: str, fields: dict[str, str]) -> bool:
@@ -114,7 +112,6 @@ class Database(Pydbops):
         conn.close()
         self._table = tableName
         self.tables.append(tableName)
-        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return True
 
     def databaseVersion(self) -> str:
@@ -133,7 +130,6 @@ class Database(Pydbops):
 
         Returns: list of records.
         """
-        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         ret = super().dropTable(table=table, getData=getData)
         self.tables = self.tableNames(count=False, list=True, dictionary=False)
         return ret
@@ -285,7 +281,6 @@ class Database(Pydbops):
             True if deleted a record. False if record not found.
         """
         ret = super().removeEntry(table, id, keyword, deleteAllOccurences, deleteAll)
-        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return ret
 
     @overload
@@ -373,7 +368,6 @@ class Database(Pydbops):
             id of the entry updated.
         """
         ret = super().updateEntry(table, values, whereField, Is)
-        self.data: dict[str, dict[str, list[tuple]]] = Database.getData(self)
         return ret
 
 
