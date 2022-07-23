@@ -1,12 +1,12 @@
 import os
-from pydbops.pydbops import pydbops
+from pydbops.pydbops import Pydbops
 from pydbops.tables import Table
 from pydbops.UserDefinedExceptions import NoSuchTableError
 import sqlite3
 from typing import overload
 
 
-class Database(pydbops):
+class Database(Pydbops):
     """
     Class for representing database
 
