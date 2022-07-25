@@ -16,6 +16,7 @@ Library for simplifying database operations.
 ```sh
 pip install pydbops
 ```
+_(Copy and paste the above command to terminal.)_
 
 ## Importing pydbops:
 
