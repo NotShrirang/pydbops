@@ -59,6 +59,9 @@ class Table(Pydbops):
         string = string + "_______________________________________________\n"
         return string
 
+    def addColumn(self, columnName: str, columnType: str) -> bool:
+        return super().addColumn(self.tableName, columnName, columnType)
+
     def addEntry(self, values: dict[str, str]) -> int:
         """
         Function for inserting values in table.
@@ -70,12 +73,18 @@ class Table(Pydbops):
             id of the entry inserted.
         """
         return super().addEntry(self.tableName, values)
+    
+    def changeColumn(self, columnName: str, columnType: str) -> bool:
+        return super().changeColumn(self.tableName, columnName, columnType)
 
     def databaseVersion(self) -> str:
         """
         Returns sqlite3 version.
         """
         return super().databaseVersion()
+
+    def dropColumn(self, columnName: str) -> bool:
+        return super().dropColumn(self.tableName, columnName)
 
     def dropTable(self, getData: bool = True) -> list[tuple[str | int, str | int, ]]:
         """
