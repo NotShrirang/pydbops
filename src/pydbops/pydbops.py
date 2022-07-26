@@ -75,7 +75,7 @@ class Pydbops():
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
         c.execute(f"""ALTER TABLE {table}
-                    ALTER COLUMN {columnName} {columnType}
+                    MODIFY {columnName} {columnType}
                     """)
         conn.commit()
         conn.close()
