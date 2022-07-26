@@ -38,6 +38,17 @@ class Pydbops():
         conn.close()
         return string
 
+    def addColumn(self, table: str, columnName: str, columnType: str) -> bool:
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        c.execute(f"""ALTER TABLE {table}
+                    ADD {columnName} {columnType}
+                    """)
+        conn.commit()
+        conn.close()
+        self._table = table
+        return True
+
     def addEntry(self, table: str, values: dict[str, str]) -> int:
         """
         Function for inserting values in database.
@@ -60,11 +71,33 @@ class Pydbops():
         self._table = table
         return int(id[0])
 
+    def changeColumn(self, table: str, columnName: str, columnType: str) -> bool:
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        c.execute(f"""ALTER TABLE {table}
+                    ALTER COLUMN {columnName} {columnType}
+                    """)
+        conn.commit()
+        conn.close()
+        self._table = table
+        return True
+
     def databaseVersion(self) -> str:
         """
         Returns sqlite3 version.
         """
         return sqlite3.version
+
+    def dropColumn(self, table: str, columnName: str) -> bool:
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        c.execute(f"""ALTER TABLE {table}
+                    DROP COLUMN {columnName}
+                    """)
+        conn.commit()
+        conn.close()
+        self._table = table
+        return True
 
     def dropTable(self, table: str, getData: bool = True) -> list[tuple[str | int, str | int, ]]:
         """
