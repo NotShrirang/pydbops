@@ -2,7 +2,7 @@
 
 # pydbops
 
-[![v0.0.6](https://img.shields.io/badge/version-v0.0.6-red.svg?style=flat&logo=)](https://github.com/NotShrirang/pydbops) 
+[![v0.0.6](https://img.shields.io/badge/version-v0.0.6-red.svg?style=flat&logo=)](https://github.com/NotShrirang/pydbops)
 [![PyPI Latest Release](https://img.shields.io/pypi/v/pydbops.svg)](https://pypi.org/project/pydbops/)
 ![Tests](https://github.com/NotShrirang/pydbops/actions/workflows/test.yml/badge.svg)
 [![License: MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat&logo=license)](https://github.com/NotShrirang/pydbops/blob/main/LICENSE)
@@ -16,6 +16,7 @@ Library for simplifying database operations.
 ```sh
 pip install pydbops
 ```
+
 _(Copy and paste the above command to terminal.)_
 
 ## Importing pydbops:
@@ -33,6 +34,7 @@ import pydbops as db
 (You will need to call openDatabase() method using db.)
 
 ## Using CLI:
+
 - Check <a href="https://github.com/NotShrirang/pydbops/releases/tag/v0.0.1">Releases</a>
 - <a href="https://github.com/NotShrirang/pydbops/releases/download/v0.0.1/pydbops-cli-installer-X86_64.exe">Download</a> Installer
 - <a href="https://github.com/NotShrirang/pydbops/tree/main/pydbops-cli">Read about CLI</a>
@@ -41,21 +43,24 @@ import pydbops as db
 
 1. <code>openDatabase()</code> - Creates a database and returns a Database object.
 2. <code>createTable()</code> - Creates table of given name.
-3. <code>addEntry()</code> - Function for inserting values in database.
-4. <code>databaseVersion()</code> - Returns sqlite3 version.
-5. <code>dropTable()</code> - Function for deleting table.
-6. <code>fetchInOrder()</code> - Function for fetching database entries in given order.
-7. <code>getData()</code> - Function for getting all data.
-8. <code>getFieldNames()</code> - Function for getting field names.
-9. <code>getTable()</code> - Creates Table instance.
-10. <code>intersection()</code> - Performs intersection and returns all distinct rows selected by query.
-11. <code>length()</code> - Returns length of database.
-12. <code>minus()</code> - Fetches rows which are present in first query but absent in second.
-13. <code>removeEntry()</code> - Function for removing records from database.
-14. <code>searchEntry()</code> - Function for searching in database.
-15. <code>tableNames()</code> - Function for retrieving tables in a database.
-16. <code>union()</code> - Performs union and returns all distinct rows selected by query.
-17. <code>updateEntry()</code> - Function for updating values in database.
+3. <code>addColumn()</code> - Function for adding new column.
+4. <code>addEntry()</code> - Function for inserting values in database.
+5. <code>changeColumn()</code> - Function for chnaging column type.
+6. <code>databaseVersion()</code> - Returns sqlite3 version.
+7. <code>dropTable()</code> - Function for deleting column.
+8. <code>dropTable()</code> - Function for deleting table.
+9. <code>fetchInOrder()</code> - Function for fetching database entries in given order.
+10. <code>getData()</code> - Function for getting all data.
+11. <code>getFieldNames()</code> - Function for getting field names.
+12. <code>getTable()</code> - Creates Table instance.
+13. <code>intersection()</code> - Performs intersection and returns all distinct rows selected by query.
+14. <code>length()</code> - Returns length of database.
+15. <code>minus()</code> - Fetches rows which are present in first query but absent in second.
+16. <code>removeEntry()</code> - Function for removing records from database.
+17. <code>searchEntry()</code> - Function for searching in database.
+18. <code>tableNames()</code> - Function for retrieving tables in a database.
+19. <code>union()</code> - Performs union and returns all distinct rows selected by query.
+20. <code>updateEntry()</code> - Function for updating values in database.
 
 For printing data in database, you can use default print() method by passing Database object in it.
 
