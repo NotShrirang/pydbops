@@ -6,16 +6,18 @@ if __name__ == "__main__":
     d = openDatabase("MyDB.db")
 
     # Creating fields for table
-    fields = {"Name" : "TEXT", "Character" : "TEXT"}
+    fields = {"id" : "int(4) primary key", "Name" : "TEXT", "Character" : "TEXT"}
 
     # Creating table
     d.createTable(tableName="Table1", fields=fields)
 
     name_dict = {"Eddie" : "Joseph", "Steve" : "Joe", "Robin" : "Maya", "Dustin" : "Gaten", "Lucas" : "Caleb", "Mike" : "Finn", "Will" : "Noah", "Jane" : "Millie", "Nancy" : "Natalia"}
+    i = 1
     for char, name in name_dict.items():
         # Adding entry in table with Database instance.
-        d.addEntry(table="Table1", values={"Name" : f"{name}", "Character" : f"{char}"})
-    
+        d.addEntry(table="Table1", values={"id" : i, "Name" : f"{name}", "Character" : f"{char}"})
+        i += 1
+
     # Create 2nd table
     d.createTable(tableName="Table2", fields={"Name" : "TEXT", "Number" : "INTEGER"})
 
