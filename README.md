@@ -48,7 +48,7 @@ import pydbops as db
 5. <code>changeColumn()</code> - Function for chnaging column type.
 6. <code>createView()</code> - Creates view of given name.
 7. <code>databaseVersion()</code> - Returns sqlite3 version.
-8. <code>dropTable()</code> - Function for deleting column.
+8. <code>dropColumn()</code> - Function for deleting column.
 9. <code>dropTable()</code> - Function for deleting table.
 10. <code>fetchInOrder()</code> - Function for fetching database entries in given order.
 11. <code>getData()</code> - Function for getting all data.
