@@ -39,6 +39,17 @@ class Pydbops():
         return string
 
     def addColumn(self, table: str, columnName: str, columnType: str) -> bool:
+        """
+        Function for adding columns in database.
+
+        Args:
+            table (str) : tablename.
+            columnName (str): name of column to be added.
+            columnType (str): datatype of the column.
+
+        Returns:
+            True if executed.
+        """
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
         c.execute(f"""ALTER TABLE {table}
@@ -72,6 +83,17 @@ class Pydbops():
         return int(id[0])
 
     def changeColumn(self, table: str, columnName: str, columnType: str) -> bool:
+        """
+        Function for changing datatypes of columns in database.
+
+        Args:
+            table (str) : tablename.
+            columnName (str): name of column to be changed.
+            columnType (str): new datatype of the column.
+
+        Returns:
+            True if executed.
+        """
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
         c.execute(f"""ALTER TABLE {table}
@@ -82,6 +104,43 @@ class Pydbops():
         self._table = table
         return True
 
+    def createView(self, table: str, view_name: str, columns: list[str] = ["*"], where: str = "", Is:str = "") -> dict[str, list[str]]:
+        """
+        Function for creating views in database.
+
+        Args:
+            - table (str) : tablename.
+            - view_name (str): name of view.
+            - columns (list): specify the names of the columns to be included in the view.
+            - where (str): WHERE clause in standard SQL.
+            - Is (str): value to be equated with "where" parameter.
+            
+            (where and Is parameter and inter-dependent.)
+
+        Returns:
+            dictionary representing created view.
+        """
+        columns_str: str = ", ".join(["{}".format(col) for col in columns])
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        if (where == "") and (Is == ""):
+            c.execute(f"""CREATE VIEW {view_name} AS SELECT {columns_str} FROM {table}""")
+        elif (where != "") and (Is != ""):
+            c.execute(f"""CREATE VIEW {view_name} AS SELECT {columns_str} FROM {table} WHERE {where} = '{Is}'""")
+        else:
+            print("Pass both 'where' and 'Is'.")
+            exit(1)
+        conn.commit()
+        view_dict: dict[str, list[str]] = {}
+        for column in columns:
+            c.execute(f"SELECT {column} from {view_name}")
+            records: list[tuple[str]] = c.fetchall()
+            rec_list: list[str] = []
+            for record in records:
+                rec_list.append(record[0])
+            view_dict[column] = rec_list
+        return view_dict
+
     def databaseVersion(self) -> str:
         """
         Returns sqlite3 version.
@@ -89,6 +148,16 @@ class Pydbops():
         return sqlite3.version
 
     def dropColumn(self, table: str, columnName: str) -> bool:
+        """
+        Function for dropping columns in database.
+
+        Args:
+            table (str) : tablename.
+            columnName (str): name of column to be dropped.
+
+        Returns:
+            True if executed.
+        """
         conn = sqlite3.connect(self.__filepath)
         c = conn.cursor()
         c.execute(f"""ALTER TABLE {table}
