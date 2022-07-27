@@ -1,5 +1,5 @@
 import pytest
-from pydbops.database import *
+from src.pydbops.database import *
 
 @pytest.fixture(scope="session")
 def db_conn() -> Database:
