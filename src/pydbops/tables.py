@@ -77,6 +77,9 @@ class Table(Pydbops):
     def changeColumn(self, columnName: str, columnType: str) -> bool:
         return super().changeColumn(self.tableName, columnName, columnType)
 
+    def createView(self, view_name: str, columns: list[str], where: str = "", Is: str = "") -> dict[str, list[str]]:
+        return super().createView(self.tableName, view_name, columns, where, Is)
+
     def databaseVersion(self) -> str:
         """
         Returns sqlite3 version.
