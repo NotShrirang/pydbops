@@ -1,7 +1,7 @@
 import pytest
-from pydbops.database import *
-from pydbops.UserDefinedExceptions import InvalidParameterTypeError, InvalidReturnTypeError, NoSuchTableError
 from pytest import *
+from src.pydbops.database import *
+from src.pydbops.UserDefinedExceptions import InvalidParameterTypeError, InvalidReturnTypeError, NoSuchTableError
 
 def test_openDatabse():
     with pytest.raises(FileNotFoundError):
@@ -32,6 +32,7 @@ def test_Database_ops(db_conn: Database):
     assert d.fetchInOrder(table="Table1", field="Name") == [('Caleb', 'Lucas'), ('Finn', 'Mike'), ('Gaten', 'Dustin'), ('Joe', 'Steve'), ('Joseph', 'Eddie'), ('Maya', 'Robin'), ('Millie', 'Eleven'), ('Natalia', 'Nancy'), ('Noah', 'Will')]
     assert d.fetchInOrder(table="Table1", field=["Name ASC", "Character ASC"]) == [('Caleb', 'Lucas'), ('Finn', 'Mike'), ('Gaten', 'Dustin'), ('Joe', 'Steve'), ('Joseph', 'Eddie'), ('Maya', 'Robin'), ('Millie', 'Eleven'), ('Natalia', 'Nancy'), ('Noah', 'Will')]
     assert d.fetchInOrder(table="Table1", field={"Name" : "DESC", "Character" : "ASC"}) == [('Noah', 'Will'), ('Natalia', 'Nancy'), ('Millie', 'Eleven'), ('Maya', 'Robin'), ('Joseph', 'Eddie'), ('Joe', 'Steve'), ('Gaten', 'Dustin'), ('Finn', 'Mike'), ('Caleb', 'Lucas')]
+    assert d.createView(table="Table1", view_name="char_view", columns=['id', 'Character']) == {'id': [1, 2, 3, 4, 5, 6, 7, 8, 9], 'Character': ['Eddie', 'Steve', 'Robin', 'Dustin', 'Lucas', 'Mike', 'Will', 'Jane', 'Nancy']}
     assert d.addEntry(table="Table1", values={"Name": "Jamie", "Character" : "Vecna"}) == i+1
     assert d.createTable("Table2", {"Name" : "TEXT", "Character" : "TEXT"}) is True
     name_dict = {"Eddie" : 1, "Steve" : 2, "Robin" : 3, "Dustin" : 4, "Lucas" : 5, "Mike" : 6, "Will" : 7, "Jane" : 8, "Nancy" : 9}
