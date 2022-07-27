@@ -46,21 +46,22 @@ import pydbops as db
 3. <code>addColumn()</code> - Function for adding new column.
 4. <code>addEntry()</code> - Function for inserting values in database.
 5. <code>changeColumn()</code> - Function for chnaging column type.
-6. <code>databaseVersion()</code> - Returns sqlite3 version.
-7. <code>dropTable()</code> - Function for deleting column.
-8. <code>dropTable()</code> - Function for deleting table.
-9. <code>fetchInOrder()</code> - Function for fetching database entries in given order.
-10. <code>getData()</code> - Function for getting all data.
-11. <code>getFieldNames()</code> - Function for getting field names.
-12. <code>getTable()</code> - Creates Table instance.
-13. <code>intersection()</code> - Performs intersection and returns all distinct rows selected by query.
-14. <code>length()</code> - Returns length of database.
-15. <code>minus()</code> - Fetches rows which are present in first query but absent in second.
-16. <code>removeEntry()</code> - Function for removing records from database.
-17. <code>searchEntry()</code> - Function for searching in database.
-18. <code>tableNames()</code> - Function for retrieving tables in a database.
-19. <code>union()</code> - Performs union and returns all distinct rows selected by query.
-20. <code>updateEntry()</code> - Function for updating values in database.
+6. <code>createView()</code> - Creates view of given name.
+7. <code>databaseVersion()</code> - Returns sqlite3 version.
+8. <code>dropTable()</code> - Function for deleting column.
+9. <code>dropTable()</code> - Function for deleting table.
+10. <code>fetchInOrder()</code> - Function for fetching database entries in given order.
+11. <code>getData()</code> - Function for getting all data.
+12. <code>getFieldNames()</code> - Function for getting field names.
+13. <code>getTable()</code> - Creates Table instance.
+14. <code>intersection()</code> - Performs intersection and returns all distinct rows selected by query.
+15. <code>length()</code> - Returns length of database.
+16. <code>minus()</code> - Fetches rows which are present in first query but absent in second.
+17. <code>removeEntry()</code> - Function for removing records from database.
+18. <code>searchEntry()</code> - Function for searching in database.
+19. <code>tableNames()</code> - Function for retrieving tables in a database.
+20. <code>union()</code> - Performs union and returns all distinct rows selected by query.
+21. <code>updateEntry()</code> - Function for updating values in database.
 
 For printing data in database, you can use default print() method by passing Database object in it.
 
