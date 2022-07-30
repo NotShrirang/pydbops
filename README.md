@@ -37,7 +37,7 @@ import pydbops as db
 
 - Check <a href="https://github.com/NotShrirang/pydbops/releases/tag/v0.0.1">Releases</a>
 - <a href="https://github.com/NotShrirang/pydbops/releases/download/v0.0.1/pydbops-cli-installer-X86_64.exe">Download</a> Installer
-- <a href="https://github.com/NotShrirang/pydbops/tree/main/pydbops-cli">Read about CLI</a>
+- <a href="https://github.com/NotShrirang/pydbops/tree/main/pydbops-cli#pydbops-cli">Read about CLI</a>
 
 ## Methods in Database:
 
