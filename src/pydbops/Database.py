@@ -33,14 +33,15 @@ class Database(Pydbops):
         - union() - Performs union and returns all distinct rows selected by query.
         - updateEntry() - Function for updating values in table.
     """
-    def __init__(self, filepath: str) -> None:
-        super().__init__(filepath)
-        self.__filepath = filepath
-        self.tables: list[str] = Database.tableNames(self, count=False, list=True, dictionary=False)
 
     @property
     def data(self) -> dict[str, dict[str, list[tuple]]]:
         return Database.getData(self=self)
+    
+    def __init__(self, filepath: str) -> None:
+        super().__init__(filepath)
+        self.__filepath = filepath
+        self.tables: list[str] = Database.tableNames(self, count=False, list=True, dictionary=False)
 
     def __str__(self) -> str:
         string = ""
