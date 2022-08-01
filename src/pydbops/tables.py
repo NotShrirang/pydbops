@@ -30,6 +30,10 @@ class Table(Pydbops):
         - updateEntry() - Function for updating values in table.
         - values() - Accesses records in a table.
     """
+    @property
+    def data(self) -> dict[str, list[tuple]]:
+        return Table.getData(self=self)
+
     def __init__(self, table: str, filepath: str) -> None:
         super().__init__(filepath=filepath)
         self.tableName = table
@@ -125,6 +129,62 @@ class Table(Pydbops):
         Returns: list of records sorted in given order.
         """
         return super().fetchInOrder(table=self.tableName, field=field)
+    
+    def getData(self, limit: int = -1, columns: list[str] = []) -> dict[str, list[tuple]]:
+        if (limit == -1 and columns == []):
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            mydata: dict[str, list[tuple]] = {}
+            column_names: list[str] = Table.getFieldNames(self, returnType="list")
+            for column in column_names:
+                c.execute(f"SELECT {column} from {self.tableName}")
+                records: list[tuple] = c.fetchall()
+                rec_list: list[str] = []
+                for record in records:
+                    rec_list.append(record[0])
+                mydata[column] = rec_list
+            c.close()
+            return mydata
+        elif (limit > -1 and columns == []):
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            mydata: dict[str, list[tuple]] = {}
+            column_names: list[str] = Table.getFieldNames(self, returnType="list")
+            for column in column_names:
+                c.execute(f"SELECT {column} from {self.tableName} LIMIT '{str(limit)}'")
+                records: list[tuple] = c.fetchall()
+                rec_list: list[str] = []
+                for record in records:
+                    rec_list.append(record[0])
+                mydata[column] = rec_list
+            c.close()
+            return mydata
+        elif (limit == -1 and columns != []):
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            mydata: dict[str, list[tuple]] = {}
+            for column in columns:
+                c.execute(f"SELECT {column} from {self.tableName}")
+                records: list[tuple] = c.fetchall()
+                rec_list: list[str] = []
+                for record in records:
+                    rec_list.append(record[0])
+                mydata[column] = rec_list
+            c.close()
+            return mydata
+        elif (limit > -1 and columns != []):
+            conn = sqlite3.connect(self.__filepath)
+            c = conn.cursor()
+            mydata: dict[str, list[tuple]] = {}
+            for column in columns:
+                c.execute(f"SELECT {column} from {self.tableName} LIMIT '{str(limit)}'")
+                records: list[tuple] = c.fetchall()
+                rec_list: list[str] = []
+                for record in records:
+                    rec_list.append(record[0])
+                mydata[column] = rec_list
+            c.close()
+            return mydata
 
     @overload
     def getFieldNames(self, returnType: str = "int") -> int: ...
