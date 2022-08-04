@@ -31,7 +31,7 @@ or
 import pydbops as db
 ```
 
-(You will need to call openDatabase() method using db.)
+_(You will need to call openDatabase() method using db.)_
 
 ## Using CLI:
 
