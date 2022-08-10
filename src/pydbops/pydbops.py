@@ -1,4 +1,4 @@
-from pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterTypeError
+from src.pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterTypeError
 import sqlite3
 from typing import overload
 
