@@ -1,7 +1,7 @@
 import os
-from pydbops.pydbops import Pydbops
-from pydbops.tables import Table
-from pydbops.UserDefinedExceptions import NoSuchTableError
+from src.pydbops.pydbops import Pydbops
+from src.pydbops.tables import Table
+from src.pydbops.UserDefinedExceptions import NoSuchTableError
 import sqlite3
 from typing import overload
 
