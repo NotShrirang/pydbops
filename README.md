@@ -55,6 +55,7 @@ _(You will need to call openDatabase() method using db.)_
 12. <code>getFieldNames()</code> - Function for getting field names.
 13. <code>getTable()</code> - Creates Table instance.
 14. <code>intersection()</code> - Performs intersection and returns all distinct rows selected by query.
+15. <code>join()</code> - Performs SQL Join on table specified.
 15. <code>length()</code> - Returns length of database.
 16. <code>minus()</code> - Fetches rows which are present in first query but absent in second.
 17. <code>removeEntry()</code> - Function for removing records from database.
