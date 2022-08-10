@@ -1,4 +1,4 @@
-from pydbops.pydbops import Pydbops
+from src.pydbops.pydbops import Pydbops
 import sqlite3
 from typing import overload
 
@@ -204,6 +204,31 @@ class Table(Pydbops):
             - If returnType is "int", then returns number of fields present.
         """
         return super().getFieldNames(self.tableName, returnType)
+
+    def join(self, table: str, column: str, type: str = "inner", columns: dict[str, str] = {"*" : ""}) -> list[tuple[str]]:
+        """
+        Function for joining tables.
+
+        Args:
+            - table (str) : second table name.
+            - column (str) : the column to be matched.
+            - type (str) : the join type. i.e. (INNER, LEFT)
+            - columns (dict) : dictionary of form {<table-name> : <column-name>}
+
+        Returns:
+            list of records.
+        """
+        columnNames = "*"
+        if columns != {"*" : ""}:
+            columnNames = ", ".join(["{}.{}".format(k, v) for k, v in columns.items()])
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        c.execute(f"""SELECT {columnNames} 
+                    FROM {self.tableName} 
+                    {type} join {table} ON {self.tableName}.{column} = {table}.{column}""")
+        records = c.fetchall()
+        c.close()
+        return records
 
     def length(self) -> int:
         """
