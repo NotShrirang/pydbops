@@ -1,4 +1,4 @@
-<img src="https://github.com/NotShrirang/pydbops/blob/main/src/pydbops/database_image.png" height="100" width="100">
+<a href="https://pypi.org/project/pydbops/"><img src="https://github.com/NotShrirang/pydbops/blob/main/src/pydbops/database_image.png" height="100" width="100"></a>
 
 # pydbops
 
