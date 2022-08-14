@@ -59,15 +59,14 @@ _(You will need to call openDatabase() method using db.)_
 15. <code>length()</code> - Returns length of database.
 16. <code>minus()</code> - Fetches rows which are present in first query but absent in second.
 17. <code>removeEntry()</code> - Function for removing records from database.
-18. <code>searchEntry()</code> - Function for searching in database.
-19. <code>tableNames()</code> - Function for retrieving tables in a database.
-20. <code>union()</code> - Performs union and returns all distinct rows selected by query.
-21. <code>updateEntry()</code> - Function for updating values in database.
+18. <code>schema()</code> - Function for fetching schema of table in database.
+19. <code>searchEntry()</code> - Function for searching in database.
+20. <code>tableNames()</code> - Function for retrieving tables in a database.
+21. <code>union()</code> - Performs union and returns all distinct rows selected by query.
+22. <code>updateEntry()</code> - Function for updating values in database.
 
 For printing data in database, you can use default print() method by passing Database object in it.
 
-Programming Language : Python 3
-<br>
-License : MIT License
-<br>
-Operating System : OS Independent
+## Requirements:
+- Python > 3.5
+- sqlite3
