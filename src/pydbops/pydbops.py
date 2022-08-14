@@ -328,6 +328,23 @@ class Pydbops():
             return True
         return False
 
+    def schema(self, table: str) -> dict[str, dict[str, str]]:
+        """
+        Function for fetching schema of a table in database.
+
+        Args:
+            - table (str) : Table name
+
+        Returns: dict.
+        """
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        records: list[tuple[str]] = c.execute(f"PRAGMA table_info('{table}')").fetchall()
+        schema: dict[str, dict[str, str]] = {}
+        for record in records:
+            schema[record[1]] = {'cid' : record[0], 'dtype' : record[2], 'notNull' : record[3], 'defaultValue' : record[4], 'pri' : record[5]}
+        return schema
+
     @overload
     def searchEntry(self, table: str, id: int = -1, keyword: str = "", returnType: str = "ids", findAllOccurence: bool = False) -> int: ...
 
