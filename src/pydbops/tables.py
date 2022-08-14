@@ -32,7 +32,21 @@ class Table(Pydbops):
     """
     @property
     def data(self) -> dict[str, list[tuple]]:
+        """
+        Property data of table. Returns data of table.
+        """
         return Table.getData(self=self)
+
+    @property
+    def shape(self) -> tuple[int]:
+        """
+        Property shape of table. Returns shape of table.
+        """
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        rows = c.execute(f"SELECT count(*) FROM {self.tableName}").fetchall()[0][0]
+        columns = c.execute(f"PRAGMA table_info('{self.tableName}')").fetchall()
+        return (rows, len(columns))
 
     def __init__(self, table: str, filepath: str) -> None:
         super().__init__(filepath=filepath)
@@ -64,6 +78,16 @@ class Table(Pydbops):
         return string
 
     def addColumn(self, columnName: str, columnType: str) -> bool:
+        """
+        Function for adding columns in table.
+
+        Args:
+            - columnName (str): name of column to be added.
+            - columnType (str): datatype of the column.
+
+        Returns:
+            True if executed.
+        """
         return super().addColumn(self.tableName, columnName, columnType)
 
     def addEntry(self, values: dict[str, str]) -> int:
@@ -71,7 +95,7 @@ class Table(Pydbops):
         Function for inserting values in table.
 
         Args:
-            values (dict): key is field name and value is value to be inserted.
+            - values (dict): key is field name and value is value to be inserted.
 
         Returns:
             id of the entry inserted.
@@ -79,9 +103,33 @@ class Table(Pydbops):
         return super().addEntry(self.tableName, values)
     
     def changeColumn(self, columnName: str, columnType: str) -> bool:
+        """
+        Function for changing datatypes of columns in table.
+
+        Args:
+            - columnName (str): name of column to be changed.
+            - columnType (str): new datatype of the column.
+
+        Returns:
+            True if executed.
+        """
         return super().changeColumn(self.tableName, columnName, columnType)
 
     def createView(self, view_name: str, columns: list[str], where: str = "", Is: str = "") -> dict[str, list[str]]:
+        """
+        Function for creating views in table.
+
+        Args:
+            - view_name (str): name of view.
+            - columns (list): specify the names of the columns to be included in the view.
+            - where (str): WHERE clause in standard SQL.
+            - Is (str): value to be equated with "where" parameter.
+            
+            (where and Is parameter and inter-dependent.)
+
+        Returns:
+            dictionary representing created view.
+        """
         return super().createView(self.tableName, view_name, columns, where, Is)
 
     def databaseVersion(self) -> str:
@@ -91,6 +139,15 @@ class Table(Pydbops):
         return super().databaseVersion()
 
     def dropColumn(self, columnName: str) -> bool:
+        """
+        Function for dropping columns in table.
+
+        Args:
+            - columnName (str): name of column to be dropped.
+
+        Returns:
+            True if executed.
+        """
         return super().dropColumn(self.tableName, columnName)
 
     def dropTable(self, getData: bool = True) -> list[tuple[str | int, str | int, ]]:
@@ -251,6 +308,9 @@ class Table(Pydbops):
             True if deleted a record. False if record not found.
         """
         return super().removeEntry(self.tableName, id, keyword, deleteAllOccurences, deleteAll)
+
+    def schema(self) -> dict[str, dict[str, str]]:
+        return super().schema(self.tableName)
 
     @overload
     def searchEntry(self, id: int = -1, keyword: str = "", returnType: str = "ids", findAllOccurence: bool = False) -> int: ...
