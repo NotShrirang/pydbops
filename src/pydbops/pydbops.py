@@ -1,4 +1,5 @@
 from src.pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterTypeError
+from src.pydbops.procedures import Procedure
 import sqlite3
 from typing import overload
 
@@ -82,6 +83,21 @@ class Pydbops():
         self._table = table
         return int(id[0])
 
+    def callProcedure(self, name: str, param: list = []) -> list:
+        """
+        Function for calling stored procedure.
+        
+        Args:
+            - name: str = name of the procedure.
+            - param: list = list of parameters (optional)
+        
+        Returns:
+            - Data returned by procedure.
+        """
+        proc = Procedure(name, connection = self.__filepath)
+        records = proc.call(param=param)
+        return records
+
     def changeColumn(self, table: str, columnName: str, columnType: str) -> bool:
         """
         Function for changing datatypes of columns in database.
@@ -103,6 +119,20 @@ class Pydbops():
         conn.close()
         self._table = table
         return True
+
+    def createProcedure(self, name: str, procedure: list[str]) -> Procedure:
+        """
+        Function for creating and storing procedure.
+        
+        Args:
+            - name: str = name of the procedure.
+            - procedure: list[str] = list of sql queries.
+        
+        Returns:
+            - Procedure object.
+        """
+        procedure = Procedure(name, procedure, self.__filepath, add=True)
+        return procedure
 
     def createView(self, table: str, view_name: str, columns: list[str] = ["*"], where: str = "", Is:str = "") -> dict[str, list[str]]:
         """
