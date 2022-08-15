@@ -39,9 +39,10 @@ _(You will need to call openDatabase() method using db.)_
 - <a href="https://github.com/NotShrirang/pydbops/releases/download/v0.0.1/pydbops-cli-installer-X86_64.exe">Download</a> Installer
 - <a href="https://github.com/NotShrirang/pydbops/tree/main/pydbops-cli#pydbops-cli">Read about CLI</a>
 
-pydbops now supports "Stored Procedures" which sqlite3 doesn't provide.
 
 ## Methods in Database:
+
+pydbops now supports "Stored Procedures" which sqlite3 doesn't provide.
 
 1. <code>openDatabase()</code> - Creates a database and returns a Database object.
 2. <code>createTable()</code> - Creates table of given name.
