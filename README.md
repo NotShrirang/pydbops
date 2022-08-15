@@ -45,25 +45,27 @@ _(You will need to call openDatabase() method using db.)_
 2. <code>createTable()</code> - Creates table of given name.
 3. <code>addColumn()</code> - Function for adding new column.
 4. <code>addEntry()</code> - Function for inserting values in database.
-5. <code>changeColumn()</code> - Function for chnaging column type.
-6. <code>createView()</code> - Creates view of given name.
-7. <code>databaseVersion()</code> - Returns sqlite3 version.
-8. <code>dropColumn()</code> - Function for deleting column.
-9. <code>dropTable()</code> - Function for deleting table.
-10. <code>fetchInOrder()</code> - Function for fetching database entries in given order.
-11. <code>getData()</code> - Function for getting all data.
-12. <code>getFieldNames()</code> - Function for getting field names.
-13. <code>getTable()</code> - Creates Table instance.
-14. <code>intersection()</code> - Performs intersection and returns all distinct rows selected by query.
-15. <code>join()</code> - Performs SQL Join on table specified.
-15. <code>length()</code> - Returns length of database.
-16. <code>minus()</code> - Fetches rows which are present in first query but absent in second.
-17. <code>removeEntry()</code> - Function for removing records from database.
-18. <code>schema()</code> - Function for fetching schema of table in database.
-19. <code>searchEntry()</code> - Function for searching in database.
-20. <code>tableNames()</code> - Function for retrieving tables in a database.
-21. <code>union()</code> - Performs union and returns all distinct rows selected by query.
-22. <code>updateEntry()</code> - Function for updating values in database.
+5. <code>callProcedure()</code> - Calls procedure of given name.
+6. <code>changeColumn()</code> - Function for chnaging column type.
+7. <code>createProcedure()</code> - Creates procedure of given name.
+8. <code>createView()</code> - Creates view of given name.
+9. <code>databaseVersion()</code> - Returns sqlite3 version.
+10. <code>dropColumn()</code> - Function for deleting column.
+11. <code>dropTable()</code> - Function for deleting table.
+12. <code>fetchInOrder()</code> - Function for fetching database entries in given order.
+13. <code>getData()</code> - Function for getting all data.
+14. <code>getFieldNames()</code> - Function for getting field names.
+15. <code>getTable()</code> - Creates Table instance.
+16. <code>intersection()</code> - Performs intersection and returns all distinct rows selected by query.
+17. <code>join()</code> - Performs SQL Join on table specified.
+18. <code>length()</code> - Returns length of database.
+20. <code>minus()</code> - Fetches rows which are present in first query but absent in second.
+21. <code>removeEntry()</code> - Function for removing records from database.
+22. <code>schema()</code> - Function for fetching schema of table in database.
+23. <code>searchEntry()</code> - Function for searching in database.
+24. <code>tableNames()</code> - Function for retrieving tables in a database.
+25. <code>union()</code> - Performs union and returns all distinct rows selected by query.
+26. <code>updateEntry()</code> - Function for updating values in database.
 
 For printing data in database, you can use default print() method by passing Database object in it.
 
