@@ -1,4 +1,4 @@
-from src.pydbops.database import * 
+from src.pydbops.database import *
 
 if __name__ == "__main__":
 
@@ -17,6 +17,18 @@ if __name__ == "__main__":
         # Adding entry in table with Database instance.
         d.addEntry(table="Table1", values={"id" : i, "Name" : f"{name}", "Character" : f"{char}"})
         i += 1
+
+    # Defining Stored Procedures
+    proc = d.createProcedure(name="SELECT_PROC", procedure=["SELECT * FROM Table1", "SELECT Name FROM Table1"])
+    # And imidiately calling it.
+    print(proc.call())
+
+    # Calling Previously Stored Procedure.
+    print(d.callProcedure("SELECT_PROC"))
+    
+    # Creating Stored Procedure with parameters. Use '$^$' sign to specify position of parameter.
+    proc = d.createProcedure(name="SELECT_PROC2", procedure=["SELECT $^$ FRO $^$", "SELECT count($^$) FROM $^$"])
+    print(d.callProcedure("SELECT_PROC2", param=["*", "Table1", "Name", "Table1"]))
 
     # Create 2nd table
     d.createTable(tableName="Table2", fields={"Name" : "TEXT", "Number" : "INTEGER"})
@@ -45,9 +57,6 @@ if __name__ == "__main__":
     # Printing values of a table.
     print(t2)
     
-    # Removing entry (or entries) with a keyword.
-    d.removeEntry(table="Table2", keyword="Shrirang", deleteAllOccurences=True)
-    
     # Printing sqlite3 version
     print(d.databaseVersion())
 
@@ -56,3 +65,6 @@ if __name__ == "__main__":
 
     # Printing length of the table.
     print(d.length())
+
+    # Removing entry (or entries) with a keyword.
+    d.removeEntry(table="Table2", keyword="Shrirang", deleteAllOccurences=True)
