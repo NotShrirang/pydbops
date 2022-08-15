@@ -48,6 +48,16 @@ class Table(Pydbops):
         columns = c.execute(f"PRAGMA table_info('{self.tableName}')").fetchall()
         return (rows, len(columns))
 
+    @property
+    def columns(self) -> tuple[str]:
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        records: list[tuple[str]] = c.execute(f"PRAGMA table_info('{self.tableName}')").fetchall()
+        column_list = []
+        for record in records:
+            column_list.append(record[1])
+        return tuple(column_list)
+
     def __init__(self, table: str, filepath: str) -> None:
         super().__init__(filepath=filepath)
         self.tableName = table
