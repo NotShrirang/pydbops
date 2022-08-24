@@ -26,7 +26,7 @@ Useful commands:
     - Creates Table of given name.
 
 2. <code>SWITCH <_table_name_></code> - Sets default table. (You don't need to write table name each time you run query after this.)
-3. <code>ADD_table_name_></code> -
+3. <code>ADD <_table_name_></code> -
     - Asks for dictionary of values.
     - Provide dictionary with comma-separated values <code>{ "<_field_name1_>" : "<_field_value_>", "<_field_name2_>" : "<_field_value_>", ...  }</code>
     - Adds value to given table.
