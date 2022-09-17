@@ -27,7 +27,7 @@ if __name__ == "__main__":
     print(d.callProcedure("SELECT_PROC"))
     
     # Creating Stored Procedure with parameters. Use '$^$' sign to specify position of parameter.
-    proc = d.createProcedure(name="SELECT_PROC2", procedure=["SELECT $^$ FRO $^$", "SELECT count($^$) FROM $^$"])
+    proc = d.createProcedure(name="SELECT_PROC2", procedure=["SELECT $^$ FROM $^$", "SELECT count($^$) FROM $^$"])
     print(d.callProcedure("SELECT_PROC2", param=["*", "Table1", "Name", "Table1"]))
 
     # Create 2nd table
