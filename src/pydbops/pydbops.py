@@ -1,7 +1,10 @@
+from pydbops.database import Database
 from src.pydbops.UserDefinedExceptions import InvalidReturnTypeError, InvalidParameterTypeError
 from src.pydbops.procedures import Procedure
 import sqlite3
-from typing import overload
+from typing import Any, overload
+import platforms_names as platform
+
 
 
 class Pydbops():
@@ -16,6 +19,7 @@ class Pydbops():
         self.__filepath = filepath
         self.__tables = self.tableNames()
         self._table = ""
+        self.triggers: str = []
 
     def __str__(self) -> str:
         conn = sqlite3.connect(self.__filepath)
@@ -131,8 +135,23 @@ class Pydbops():
         Returns:
             - Procedure object.
         """
-        procedure = Procedure(name, procedure, self.__filepath, add=True)
-        return procedure
+        new_procedure = Procedure(name, procedure, self.__filepath, add=True)
+        return new_procedure
+
+    def createTrigger(self, table: str, on: str, before: bool = True, after: bool = False, ) -> bool | Any:
+        """
+        Function for creating triggers on tables.
+
+        Args:
+            - table: str = name of the table.
+            - on: str = CREATE | DELETE | UPDATE
+            - before: bool = Trigger to be executed before event? (default = True)
+            - after: bool = Trigger to be executed after event? (default = False)
+        """
+        conn = sqlite3.connect(self.__filepath)
+        c = conn.cursor()
+        c.execute()
+
 
     def createView(self, table: str, view_name: str, columns: list[str] = ["*"], where: str = "", Is:str = "") -> dict[str, list[str]]:
         """
