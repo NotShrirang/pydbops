@@ -4,7 +4,7 @@ import sqlite3
 
 class Procedure():
     """
-    Procedure Class
+    Procedure class
     """
     def __init__(self, name: str = "", procedure: list[str] = "", connection: str = "", add: bool = False) -> None:
         self.name: str = name
