@@ -12,7 +12,7 @@ class Database(Pydbops):
 
     Args:
     -----
-        - filepath (str) : path to the database
+        - filepath (str) : path to the sqlite3 database file
 
     Methods:
     -------
@@ -370,22 +370,3 @@ class Database(Pydbops):
         """
         ret = super().updateEntry(table, values, whereField, Is)
         return ret
-
-
-def openDatabase(filename: str) -> Database:
-    """
-    Creates a database and returns a Database object.
-    """
-    if filename[-3:] != ".db":
-        raise(FileNotFoundError)
-
-    index = filename.rfind("/")
-    if not (index == -1):
-        file_path = filename[index:]
-        if not os.path.isdir(file_path):
-            raise(FileNotFoundError)
-    try:
-        d = Database(filepath=filename)
-        return d
-    except FileNotFoundError:
-        raise(FileNotFoundError(filename))
