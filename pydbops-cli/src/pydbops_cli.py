@@ -1,5 +1,5 @@
 import json
-from src.pydbops.database import *
+from pydbops.database import *
 import sqlite3
 
 class Pydbops_cli():
