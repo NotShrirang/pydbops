@@ -24,7 +24,7 @@ _(Copy and paste the above command to terminal.)_
 ## Importing pydbops:
 
 ```sh
-import pydbops import *
+from pydbops import *
 ```
 
 or
