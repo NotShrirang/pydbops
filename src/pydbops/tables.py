@@ -385,7 +385,7 @@ class Table(Pydbops):
         records = c.fetchall()
         recordList = []
         for record in records:
-            recordList.append(record[0])
+            recordList.append(record)
         conn.close()
         if count:
             return len(recordList)
