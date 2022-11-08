@@ -18,7 +18,10 @@ or
 pydb init
 ```
 
-Useful commands:
+This asks for file path. Provide database filename without space. eg. <code>main_database.db</code>
+<br>
+
+## Useful commands:
 
 1. <code>CREATE <_table_name_></code> -
     - Asks for field names names.
