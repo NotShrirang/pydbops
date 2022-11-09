@@ -3,6 +3,7 @@ from pydbops.database import Database
 import os
 import mysql.connector
 from pymongo import MongoClient
+from typing import Any
 
 class Databases():
     SQLITE = 'sqlite3'
@@ -11,7 +12,7 @@ class Databases():
     MONGO = 'mongodb'
     FIREBASE = 'firebase'
 
-def openDatabase(system: str, filename: str = "", username: str = "", password: str = "") -> Database:
+def openDatabase(system: str, filename: str = "", username: str = "", password: str = ""):
     """
     Creates a database and returns a Database object.
     
@@ -22,7 +23,7 @@ def openDatabase(system: str, filename: str = "", username: str = "", password: 
         - username: str = Username for MySQL
         - password: str = Password for MySQL
     """
-    if system == Databases.SQLITE:
+    def openSQLiteDB():
         if filename[-3:] != ".db":
             raise(FileNotFoundError)
 
@@ -37,8 +38,14 @@ def openDatabase(system: str, filename: str = "", username: str = "", password: 
         except FileNotFoundError:
             raise(FileNotFoundError(filename))
     
-    elif system == Databases.MONGO:
+    def openMongoDB():
         return MongoClient("mongodb://localhost:27017")
+    
+    if system == Databases.SQLITE:
+        return openSQLiteDB()
+    
+    elif system == Databases.MONGO:
+        return openMongoDB()
 
     elif system == Databases.MYSQL:
         mydb = mysql.connector.connect(
