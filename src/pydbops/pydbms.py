@@ -14,6 +14,13 @@ class Databases():
 def openDatabase(system: str, filename: str = "", username: str = "", password: str = "") -> Database:
     """
     Creates a database and returns a Database object.
+    
+    Args:
+
+        - system: str = Database Management System name.
+        - filename: str = Database file name for "SQLite"
+        - username: str = Username for MySQL
+        - password: str = Password for MySQL
     """
     if system == Databases.SQLITE:
         if filename[-3:] != ".db":
