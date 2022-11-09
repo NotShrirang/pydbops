@@ -3,7 +3,7 @@ from src.pydbops.pydbms import *
 if __name__ == "__main__":
 
     # Creating Database instance.
-    d = openDatabase(system=Databases.MYSQL, filename="MyDB.db")
+    d = openDatabase(system=Databases.SQLITE, filename="MyDB.db")
 
     # Creating fields for table
     fields = {"id" : "int(4) primary key", "Name" : "TEXT", "Character" : "TEXT"}
