@@ -10,7 +10,7 @@
 [![Framework: sqlite3](https://img.shields.io/badge/interface-sqlite3-blue.svg?style=flat&logo=sqlite3)](https://docs.python.org/3/library/sqlite3.html#:~:text=SQLite%20is%20a%20C%20library,SQLite%20for%20internal%20data%20storage.)
 
 Library for simplifying database operations.<br>
-<b>"pydbops"</b> now supports <a href="https://www.google.com/search?q=sqlite3+standard+procedure">Stored Procedures</a> which standard sqlite3 doesn't provide!
+<b>"pydbops"</b> now supports <a href="https://www.google.com/search?q=sqlite3+standard+procedure">stored procedures</a> which standard sqlite3 doesn't provide!
 <br>
 
 ## Installing pydbops with PyPI :
