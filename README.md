@@ -1,5 +1,3 @@
-<a href="https://pypi.org/project/pydbops/"><img src="https://github.com/NotShrirang/pydbops/blob/main/src/pydbops/database_image.png" height="100" width="100"></a>
-
 # pydbops
 
 [![v0.0.8](https://img.shields.io/badge/version-v0.1.2-red.svg?style=flat&logo=)](https://github.com/NotShrirang/pydbops)
